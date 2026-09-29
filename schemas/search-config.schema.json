@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://linnnns248.github.io/search-for-job/schemas/search-config.schema.json",
+  "title": "Search configuration",
+  "type": "object",
+  "required": ["schemaVersion", "cities", "keywords", "salary", "companySize", "schedule"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "cities": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "keywords": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "salary": {
+      "type": "object",
+      "required": ["minimumK", "maximumK"],
+      "properties": {
+        "minimumK": { "type": ["number", "null"], "minimum": 0 },
+        "maximumK": { "type": ["number", "null"], "minimum": 0 }
+      },
+      "additionalProperties": false
+    },
+    "companySize": {
+      "type": "object",
+      "required": ["minimum"],
+      "properties": { "minimum": { "type": "integer", "minimum": 0 } },
+      "additionalProperties": false
+    },
+    "schedule": {
+      "type": "object",
+      "required": ["timezone", "time", "statutoryWorkdaysOnly"],
+      "properties": {
+        "timezone": { "type": "string", "minLength": 1 },
+        "time": { "type": "string", "pattern": "^([01]\\d|2[0-3]):[0-5]\\d$" },
+        "statutoryWorkdaysOnly": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

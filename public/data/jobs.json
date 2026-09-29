@@ -1,0 +1,226 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-09-29T23:00:00+08:00",
+  "isDemo": true,
+  "jobs": [
+    {
+      "id": "demo-001",
+      "company": "锦城科技（示例）",
+      "companySize": "500-999人",
+      "companySizeMin": 500,
+      "title": "AI产品经理",
+      "description": "负责企业智能助手产品规划，围绕用户研究、需求分析、模型能力评估和效果指标推进产品迭代；与算法、研发和运营团队协作完成从方案到上线的闭环。",
+      "salary": "20-30K·14薪",
+      "salaryMinK": 20,
+      "salaryMaxK": 30,
+      "city": "成都",
+      "sources": [
+        { "type": "boss", "name": "Boss直聘", "url": "https://www.zhipin.com/" },
+        { "type": "official", "name": "公司官网", "url": "https://example.com/careers/demo-001" }
+      ],
+      "firstSeenAt": "2026-09-29T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "new"
+    },
+    {
+      "id": "demo-002",
+      "company": "天府数科（示例）",
+      "companySize": "1000-9999人",
+      "companySizeMin": 1000,
+      "title": "高级数据产品经理",
+      "description": "负责数据资产管理平台和分析产品建设，完成业务场景梳理、指标体系设计、需求优先级管理及产品交付，对数据质量与产品使用效果负责。",
+      "salary": "25-35K",
+      "salaryMinK": 25,
+      "salaryMaxK": 35,
+      "city": "成都",
+      "sources": [
+        { "type": "official", "name": "公司官网", "url": "https://example.com/careers/demo-002" }
+      ],
+      "firstSeenAt": "2026-09-29T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "new"
+    },
+    {
+      "id": "demo-003",
+      "company": "青羊互娱（示例）",
+      "companySize": "500-999人",
+      "companySizeMin": 500,
+      "title": "用户产品经理",
+      "description": "负责移动端用户产品的体验优化和增长探索，通过用户反馈、行为数据与竞品研究发现机会，推动设计和研发团队持续迭代。",
+      "salary": "18-28K",
+      "salaryMinK": 18,
+      "salaryMaxK": 28,
+      "city": "成都",
+      "sources": [
+        { "type": "boss", "name": "Boss直聘", "url": "https://www.zhipin.com/" }
+      ],
+      "firstSeenAt": "2026-09-29T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "new"
+    },
+    {
+      "id": "demo-004",
+      "company": "蓉云网络（示例）",
+      "companySize": "100-499人",
+      "companySizeMin": 100,
+      "title": "平台产品经理",
+      "description": "负责中后台产品规划，抽象多业务线共性能力，设计权限、流程和配置体系，持续提升平台交付效率与业务复用率。",
+      "salary": "15-25K",
+      "salaryMinK": 15,
+      "salaryMaxK": 25,
+      "city": "成都",
+      "sources": [
+        { "type": "boss", "name": "Boss直聘", "url": "https://www.zhipin.com/" },
+        { "type": "official", "name": "公司官网", "url": "https://example.com/careers/demo-004" }
+      ],
+      "firstSeenAt": "2026-09-28T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "updated"
+    },
+    {
+      "id": "demo-005",
+      "company": "蜀行科技（示例）",
+      "companySize": "1000-9999人",
+      "companySizeMin": 1000,
+      "title": "增长产品经理",
+      "description": "负责拉新、转化和留存相关产品策略，建设实验与数据分析机制，联合市场、运营和技术团队持续验证增长假设。",
+      "salary": "22-32K·13薪",
+      "salaryMinK": 22,
+      "salaryMaxK": 32,
+      "city": "成都",
+      "sources": [
+        { "type": "official", "name": "公司官网", "url": "https://example.com/careers/demo-005" }
+      ],
+      "firstSeenAt": "2026-09-26T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "active"
+    },
+    {
+      "id": "demo-006",
+      "company": "川链供应链（示例）",
+      "companySize": "500-999人",
+      "companySizeMin": 500,
+      "title": "商业产品经理",
+      "description": "面向企业客户设计供应链解决方案，负责产品商业模式、报价能力、交付流程和客户反馈闭环，推动产品收入增长。",
+      "salary": "未披露",
+      "salaryMinK": null,
+      "salaryMaxK": null,
+      "city": "成都",
+      "sources": [
+        { "type": "official", "name": "公司官网", "url": "https://example.com/careers/demo-006" }
+      ],
+      "firstSeenAt": "2026-09-25T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "active"
+    },
+    {
+      "id": "demo-007",
+      "company": "高新智造（示例）",
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "title": "策略产品经理",
+      "description": "负责策略平台需求洞察、规则设计与效果评估，结合业务目标建立监控指标，通过实验持续提升决策效率。",
+      "salary": "24-36K",
+      "salaryMinK": 24,
+      "salaryMaxK": 36,
+      "city": "成都",
+      "sources": [
+        { "type": "boss", "name": "Boss直聘", "url": "https://www.zhipin.com/" }
+      ],
+      "firstSeenAt": "2026-09-24T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "active"
+    },
+    {
+      "id": "demo-008",
+      "company": "西南云服（示例）",
+      "companySize": "100-499人",
+      "companySizeMin": 100,
+      "title": "产品经理（企业服务）",
+      "description": "负责企业服务产品的客户调研、需求定义、原型设计和项目推进，能够理解复杂业务流程并形成清晰的产品方案。",
+      "salary": "14-22K",
+      "salaryMinK": 14,
+      "salaryMaxK": 22,
+      "city": "成都",
+      "sources": [
+        { "type": "boss", "name": "Boss直聘", "url": "https://www.zhipin.com/" }
+      ],
+      "firstSeenAt": "2026-09-23T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "active"
+    },
+    {
+      "id": "demo-009",
+      "company": "星河教育（示例）",
+      "companySize": "1000-9999人",
+      "companySizeMin": 1000,
+      "title": "高级产品经理（学习平台）",
+      "description": "负责学习平台核心路径和内容消费体验，结合教学目标与用户反馈制定产品规划，推动多端产品一致性建设。",
+      "salary": "20-28K",
+      "salaryMinK": 20,
+      "salaryMaxK": 28,
+      "city": "成都",
+      "sources": [
+        { "type": "official", "name": "公司官网", "url": "https://example.com/careers/demo-009" }
+      ],
+      "firstSeenAt": "2026-09-22T23:00:00+08:00",
+      "lastSeenAt": "2026-09-28T23:00:00+08:00",
+      "status": "suspected_offline"
+    },
+    {
+      "id": "demo-010",
+      "company": "熊猫零售（示例）",
+      "companySize": "500-999人",
+      "companySizeMin": 500,
+      "title": "零售产品经理",
+      "description": "负责门店经营与商品管理产品，深入业务现场发现问题，完成流程设计、需求管理和上线效果复盘。",
+      "salary": "16-24K·14薪",
+      "salaryMinK": 16,
+      "salaryMaxK": 24,
+      "city": "成都",
+      "sources": [
+        { "type": "boss", "name": "Boss直聘", "url": "https://www.zhipin.com/" },
+        { "type": "official", "name": "公司官网", "url": "https://example.com/careers/demo-010" }
+      ],
+      "firstSeenAt": "2026-09-21T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "active"
+    },
+    {
+      "id": "demo-011",
+      "company": "川数安全（示例）",
+      "companySize": "100-499人",
+      "companySizeMin": 100,
+      "title": "安全产品经理",
+      "description": "负责安全产品需求管理和行业方案沉淀，协调研发、售前与交付团队，持续完善产品能力和客户使用体验。",
+      "salary": "18-26K",
+      "salaryMinK": 18,
+      "salaryMaxK": 26,
+      "city": "成都",
+      "sources": [
+        { "type": "official", "name": "公司官网", "url": "https://example.com/careers/demo-011" }
+      ],
+      "firstSeenAt": "2026-09-19T23:00:00+08:00",
+      "lastSeenAt": "2026-09-26T23:00:00+08:00",
+      "status": "offline"
+    },
+    {
+      "id": "demo-012",
+      "company": "锦江生活（示例）",
+      "companySize": "500-999人",
+      "companySizeMin": 500,
+      "title": "C端产品经理",
+      "description": "负责本地生活用户端产品迭代，围绕搜索、推荐和交易链路提升用户体验，使用数据和用户研究验证方案。",
+      "salary": "17-27K",
+      "salaryMinK": 17,
+      "salaryMaxK": 27,
+      "city": "成都",
+      "sources": [
+        { "type": "boss", "name": "Boss直聘", "url": "https://www.zhipin.com/" }
+      ],
+      "firstSeenAt": "2026-09-18T23:00:00+08:00",
+      "lastSeenAt": "2026-09-29T23:00:00+08:00",
+      "status": "active"
+    }
+  ]
+}

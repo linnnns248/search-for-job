@@ -1,0 +1,20 @@
+node_modules/
+dist/
+.DS_Store
+.env
+.env.*
+!.env.example
+coverage/
+playwright-report/
+test-results/
+
+# Local collector state and all secrets must stay off GitHub.
+.collector/
+auth-state/
+browser-profile/
+cookies/
+secrets/
+*.pem
+*.key
+*.p12
+*.log
