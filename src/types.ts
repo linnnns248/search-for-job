@@ -35,6 +35,7 @@ export interface SearchConfig {
   schemaVersion: number;
   cities: string[];
   keywords: string[];
+  titleIncludeKeywords: string[];
   salary: {
     minimumK: number | null;
     maximumK: number | null;

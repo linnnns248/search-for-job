@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>成都岗位采集助手</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <p class="eyebrow">SEARCH FOR JOB</p>
+      <h1>成都岗位采集助手</h1>
+      <p class="hint">工作日 23:00 自动运行。Chrome、Boss 登录状态和本地接收器需要保持可用。</p>
+      <label for="token">本地采集令牌</label>
+      <input id="token" type="password" autocomplete="off" placeholder="从本地接收器复制" />
+      <button id="save" class="secondary">保存令牌</button>
+      <section>
+        <span>当前状态</span>
+        <p id="status">正在读取…</p>
+      </section>
+      <button id="run">立即采集一次</button>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

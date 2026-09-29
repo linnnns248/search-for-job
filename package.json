@@ -1,25 +1,34 @@
 {
   "name": "search-for-job",
   "private": true,
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "validate:data": "node scripts/validate-data.mjs",
     "build": "npm run validate:data && tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "collector:serve": "tsx collector/server.ts",
+    "collector:install": "node scripts/install-macos-collector.mjs",
+    "collector:uninstall": "node scripts/install-macos-collector.mjs --uninstall",
+    "build:extension": "node scripts/build-extension.mjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
     "react": "latest",
     "react-dom": "latest",
+    "cheerio": "^1.1.2",
     "vite": "latest",
     "write-excel-file": "^4.1.1"
   },
   "devDependencies": {
+    "@types/chrome": "^0.1.6",
+    "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.20.5",
     "typescript": "latest",
     "vitest": "latest"
   }

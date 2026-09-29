@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "boss": {
+    "enabled": true,
+    "cityCodes": {
+      "成都": "101270100"
+    },
+    "maximumPagesPerKeyword": 1,
+    "minimumDelayMs": 1800,
+    "maximumDelayMs": 3200
+  }
+}

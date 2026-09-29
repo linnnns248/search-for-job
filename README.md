@@ -4,7 +4,7 @@
 
 ## 当前版本
 
-`v0.1.0` 页面原型：使用明确标记的示例数据验证产品交互和 GitHub Pages 发布链路。Boss 直聘与公司官网自动采集将在后续版本接入。
+`v0.2.0`：公开岗位看板与本地 Boss 采集端。已完成首次真实采集，当前数据为成都、100 人以上公司的产品经理方向公开岗位。
 
 ## 本地运行
 
@@ -26,9 +26,30 @@ npm run build
 
 构建结果位于 `dist/`。
 
+## Boss 本地采集
+
+采集器由普通 Chrome 中的本地扩展读取 Boss 公开岗位页面，再把白名单字段发送给仅监听 `127.0.0.1` 的本地接收器。首次使用：
+
+```bash
+npm install
+npm run build:extension
+npm run collector:serve
+```
+
+随后在 `chrome://extensions/` 开启开发者模式，通过“加载未打包的扩展程序”选择 `extension/dist`。把接收器输出的令牌保存到「成都岗位采集助手」，并在普通 Chrome 登录 Boss。
+
+要让接收器在 macOS 登录后自动启动，可执行：
+
+```bash
+npm run collector:install
+```
+
+扩展会在中国法定工作日 23:00 自动运行；普通 Chrome、Boss 登录状态和本地接收器需保持可用。“立即采集一次”只用于安装验证或故障排查，不需要每天点击。换电脑时重新克隆仓库、安装依赖和扩展、重新登录 Boss即可，无需传输旧电脑文件。详见 `docs/collector.md`。
+
 ## 数据入口
 
-- `public/data/config.json`：城市、关键词、薪资、公司规模和定时配置。
+- `public/data/config.json`：城市、搜索词、岗位名称过滤词、薪资、公司规模和定时配置。
+- `config/collector.json`：Boss 城市编码、分页和访问节奏，不含账号信息。
 - `public/data/jobs.json`：网页可公开读取的岗位数据。
 - `schemas/`：采集端与页面共享的数据协议。
 

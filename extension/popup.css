@@ -1,0 +1,16 @@
+:root { font-family: Inter, "PingFang SC", sans-serif; color: #16302d; background: #eef6f3; }
+body { margin: 0; width: 340px; }
+main { padding: 22px; }
+.eyebrow { margin: 0; color: #0f766e; font-size: 11px; font-weight: 800; letter-spacing: .14em; }
+h1 { margin: 6px 0 8px; font-size: 22px; }
+.hint { color: #5a706d; font-size: 13px; line-height: 1.6; }
+label, section > span { display: block; margin: 18px 0 7px; font-size: 12px; font-weight: 700; }
+input { box-sizing: border-box; width: 100%; padding: 10px 12px; border: 1px solid #bad0cb; border-radius: 9px; background: white; }
+button { width: 100%; margin-top: 10px; padding: 11px 14px; border: 0; border-radius: 9px; color: white; background: #0f766e; font-weight: 700; cursor: pointer; }
+button:disabled { opacity: .55; cursor: wait; }
+button.secondary { color: #0f625c; background: #d8ebe7; }
+section { margin: 16px 0; padding: 12px; border: 1px solid #cfe0dc; border-radius: 10px; background: white; }
+section > span { margin: 0; color: #687c79; }
+#status { margin: 6px 0 0; font-size: 13px; line-height: 1.5; }
+#status[data-state="error"] { color: #b42318; }
+#status[data-state="success"] { color: #087a55; }

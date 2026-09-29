@@ -20,8 +20,10 @@ GitHub Pages
 
 ```text
 本地主采集电脑
-  ├─ 专用浏览器与 Boss 登录状态（永不提交）
-  ├─ Boss 数据源适配器
+  ├─ 普通 Chrome + 本地采集扩展
+  ├─ 仅监听 localhost 的接收器
+  ├─ Chrome 管理的 Boss 登录状态（永不提交）
+  ├─ Boss 页面解析器
   ├─ 公司官网适配器
   ├─ 标准化、去重和状态判断
   └─ 生成 public/data/jobs.json
@@ -32,6 +34,18 @@ GitHub Pages
 ```
 
 采集端与页面通过版本化 JSON 协议解耦。未来更换采集电脑时，只需克隆仓库、安装采集端并重新登录 Boss。
+
+## Boss 采集端边界
+
+- `extension/`：普通 Chrome 中的计划任务、页面读取和本地传输。
+- `collector/server.ts`：令牌校验、配置下发、字段白名单和数据写入。
+- `collector/boss/`：搜索页、详情页、薪资字符和公司规模解析。
+- `collector/normalize.ts`：只把公开字段转换为 `JobRecord`。
+- `collector/merge.ts`：稳定 ID 去重、保留首次发现时间、识别内容更新。
+- `.collector/`：仅本机存在的接收器令牌、构建产物和运行日志，永不提交。
+- `config/collector.json`：不敏感的数据源参数；城市、关键词和公司规模继续以公开配置为唯一业务配置源。
+
+扩展使用 Chrome Alarm 在法定工作日 23:00 运行；macOS LaunchAgent 保持本地接收器可用。采集失败、返回空结果或遇到登录验证时，不覆盖现有公开数据。当前版本也不会仅凭单次“未发现”就将岗位标记下架。
 
 ## 扩展边界
 
