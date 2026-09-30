@@ -64,7 +64,7 @@
           "companySize": { "type": ["string", "null"] },
           "companySizeMin": { "type": ["integer", "null"], "minimum": 0 },
           "companySizeEvidenceUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
-          "adapter": { "enum": ["json-ld", "selector", "cloudview", "moka", "zhiye", "tencent", "meituan", "custom", "pending"] },
+          "adapter": { "enum": ["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "custom", "pending"] },
           "selectors": {
             "type": "object",
             "required": ["card", "title", "url"],
@@ -88,6 +88,20 @@
             "properties": {
               "category": { "enum": ["1", "2"] },
               "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
+            },
+            "additionalProperties": false
+          },
+          "zhiyeClassic": {
+            "type": "object",
+            "required": ["cityCodes", "employmentType", "maximumPagesPerKeyword"],
+            "properties": {
+              "cityCodes": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": { "type": "string", "minLength": 1 }
+              },
+              "employmentType": { "enum": ["full-time", "part-time"] },
               "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
             },
             "additionalProperties": false
@@ -120,6 +134,23 @@
               "jobTypeCode": { "type": "string", "minLength": 1 },
               "employmentType": { "enum": ["full-time", "part-time"] },
               "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
+            },
+            "additionalProperties": false
+          },
+          "baidu": {
+            "type": "object",
+            "required": ["cityCodes", "postTypeCode", "recruitType", "employmentType", "pageSize", "maximumPagesPerKeyword"],
+            "properties": {
+              "cityCodes": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": { "type": "string", "minLength": 1 }
+              },
+              "postTypeCode": { "type": "string", "minLength": 1 },
+              "recruitType": { "const": "SOCIAL" },
+              "employmentType": { "enum": ["full-time", "part-time"] },
+              "pageSize": { "type": "integer", "minimum": 1, "maximum": 10 },
               "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
             },
             "additionalProperties": false

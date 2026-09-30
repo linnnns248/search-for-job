@@ -7,8 +7,10 @@ import {
   parseCloudViewList,
 } from "./adapters/cloudview";
 import { collectZhiyeJobs } from "./adapters/zhiye";
+import { collectZhiyeClassicJobs } from "./adapters/zhiye-classic";
 import { collectTencentJobs } from "./adapters/tencent";
 import { collectMeituanJobs } from "./adapters/meituan";
+import { collectBaiduJobs } from "./adapters/baidu";
 import { loadOfficialSitesConfig } from "./config";
 import { matchesOfficialCriteria } from "./criteria";
 import { fetchOfficialHtml } from "./fetch";
@@ -58,10 +60,18 @@ async function collectSource(
     if (jobs.length === 0) throw new Error("美团招聘官网没有识别到岗位，原数据保持不变");
     return jobs;
   }
+  if (source.adapter === "baidu") {
+    const jobs = await collectBaiduJobs(source, config, searchConfig);
+    if (jobs.length === 0) throw new Error("百度招聘官网没有识别到岗位，原数据保持不变");
+    return jobs;
+  }
   if (source.adapter === "zhiye") {
     const jobs = await collectZhiyeJobs(source, config, searchConfig);
     if (jobs.length === 0) throw new Error("智易招聘官网没有识别到岗位，原数据保持不变");
     return jobs;
+  }
+  if (source.adapter === "zhiye-classic") {
+    return collectZhiyeClassicJobs(source, config, searchConfig);
   }
   const host = new URL(source.careersUrl).hostname;
   const listPage = await fetchOfficialHtml(source.careersUrl, [host], config.collection);

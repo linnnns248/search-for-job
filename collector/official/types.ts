@@ -1,6 +1,6 @@
 import type { EducationLevel, EmploymentType } from "../../src/types";
 
-export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "tencent" | "meituan" | "custom" | "pending";
+export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "zhiye-classic" | "tencent" | "meituan" | "baidu" | "custom" | "pending";
 export type OfficialSourceCheckStatus = "reachable" | "needs-browser" | "unavailable" | "pending";
 
 export interface SelectorAdapterConfig {
@@ -22,6 +22,12 @@ export interface ZhiyeAdapterConfig {
   maximumPagesPerKeyword: number;
 }
 
+export interface ZhiyeClassicAdapterConfig {
+  cityCodes: Record<string, string>;
+  employmentType: EmploymentType;
+  maximumPagesPerKeyword: number;
+}
+
 export interface TencentAdapterConfig {
   cityIds: Record<string, number>;
   recruitmentTypeId: number;
@@ -38,6 +44,15 @@ export interface MeituanAdapterConfig {
   maximumPagesPerKeyword: number;
 }
 
+export interface BaiduAdapterConfig {
+  cityCodes: Record<string, string>;
+  postTypeCode: string;
+  recruitType: "SOCIAL";
+  employmentType: EmploymentType;
+  pageSize: number;
+  maximumPagesPerKeyword: number;
+}
+
 export interface OfficialSiteSource {
   id: string;
   company: string;
@@ -49,8 +64,10 @@ export interface OfficialSiteSource {
   adapter: OfficialAdapterType;
   selectors?: SelectorAdapterConfig;
   zhiye?: ZhiyeAdapterConfig;
+  zhiyeClassic?: ZhiyeClassicAdapterConfig;
   tencent?: TencentAdapterConfig;
   meituan?: MeituanAdapterConfig;
+  baidu?: BaiduAdapterConfig;
   enabled: boolean;
   checkStatus: OfficialSourceCheckStatus;
   notes?: string;

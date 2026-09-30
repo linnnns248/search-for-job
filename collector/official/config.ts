@@ -4,7 +4,7 @@ import { projectRoot } from "../config";
 import type { OfficialSiteSource, OfficialSitesConfig } from "./types";
 
 export const officialSitesPath = path.join(projectRoot, "config", "official-sites.json");
-const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "tencent", "meituan", "custom", "pending"]);
+const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "custom", "pending"]);
 const checkStatuses = new Set(["reachable", "needs-browser", "unavailable", "pending"]);
 
 function assertPublicHttpsUrl(value: string, label: string): void {
@@ -57,6 +57,21 @@ function validateSource(source: OfficialSiteSource, ids: Set<string>): void {
         throw new Error(`官网来源 ${source.id} 的智易关键词页数必须在 1 到 50 之间`);
       }
     }
+    if (source.adapter === "zhiye-classic") {
+      if (!source.zhiyeClassic) throw new Error(`已启用官网来源 ${source.id} 缺少智易旧版适配器配置`);
+      if (!Object.keys(source.zhiyeClassic.cityCodes).length
+        || Object.values(source.zhiyeClassic.cityCodes).some((value) => !value.trim())) {
+        throw new Error(`官网来源 ${source.id} 的智易旧版城市编码无效`);
+      }
+      if (!['full-time', 'part-time'].includes(source.zhiyeClassic.employmentType)) {
+        throw new Error(`官网来源 ${source.id} 的智易旧版求职类型无效`);
+      }
+      if (!Number.isInteger(source.zhiyeClassic.maximumPagesPerKeyword)
+        || source.zhiyeClassic.maximumPagesPerKeyword < 1
+        || source.zhiyeClassic.maximumPagesPerKeyword > 50) {
+        throw new Error(`官网来源 ${source.id} 的智易旧版关键词页数必须在 1 到 50 之间`);
+      }
+    }
     if (source.adapter === "tencent") {
       if (!source.tencent) throw new Error(`已启用官网来源 ${source.id} 缺少腾讯适配器配置`);
       if (!Object.keys(source.tencent.cityIds).length
@@ -99,6 +114,28 @@ function validateSource(source: OfficialSiteSource, ids: Set<string>): void {
         || source.meituan.maximumPagesPerKeyword < 1
         || source.meituan.maximumPagesPerKeyword > 50) {
         throw new Error(`官网来源 ${source.id} 的美团关键词页数必须在 1 到 50 之间`);
+      }
+    }
+    if (source.adapter === "baidu") {
+      if (!source.baidu) throw new Error(`已启用官网来源 ${source.id} 缺少百度适配器配置`);
+      if (!Object.keys(source.baidu.cityCodes).length
+        || Object.values(source.baidu.cityCodes).some((value) => !value.trim())) {
+        throw new Error(`官网来源 ${source.id} 的百度城市编码无效`);
+      }
+      if (!source.baidu.postTypeCode.trim() || source.baidu.recruitType !== "SOCIAL") {
+        throw new Error(`官网来源 ${source.id} 的百度招聘类型无效`);
+      }
+      if (!["full-time", "part-time"].includes(source.baidu.employmentType)) {
+        throw new Error(`官网来源 ${source.id} 的百度求职类型无效`);
+      }
+      if (!Number.isInteger(source.baidu.pageSize)
+        || source.baidu.pageSize < 1 || source.baidu.pageSize > 10) {
+        throw new Error(`官网来源 ${source.id} 的百度分页大小必须在 1 到 10 之间`);
+      }
+      if (!Number.isInteger(source.baidu.maximumPagesPerKeyword)
+        || source.baidu.maximumPagesPerKeyword < 1
+        || source.baidu.maximumPagesPerKeyword > 50) {
+        throw new Error(`官网来源 ${source.id} 的百度关键词页数必须在 1 到 50 之间`);
       }
     }
   }

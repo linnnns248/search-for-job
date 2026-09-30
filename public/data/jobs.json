@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-09-30T13:11:58.905Z",
+  "generatedAt": "2026-09-30T14:45:09.981Z",
   "isDemo": false,
   "jobs": [
     {
@@ -1144,7 +1144,7 @@
         }
       ],
       "firstSeenAt": "2026-09-30T12:52:42.955Z",
-      "lastSeenAt": "2026-09-30T13:11:58.905Z",
+      "lastSeenAt": "2026-09-30T14:45:09.981Z",
       "status": "active"
     },
     {
@@ -1166,8 +1166,8 @@
         }
       ],
       "firstSeenAt": "2026-09-30T13:11:58.905Z",
-      "lastSeenAt": "2026-09-30T13:11:58.905Z",
-      "status": "new"
+      "lastSeenAt": "2026-09-30T14:45:09.981Z",
+      "status": "active"
     },
     {
       "id": "official-bfd4fbd9b2de9880",
@@ -1188,8 +1188,8 @@
         }
       ],
       "firstSeenAt": "2026-09-30T13:11:58.905Z",
-      "lastSeenAt": "2026-09-30T13:11:58.905Z",
-      "status": "new"
+      "lastSeenAt": "2026-09-30T14:45:09.981Z",
+      "status": "active"
     },
     {
       "id": "official-a55a361b04f0420d",
@@ -1210,8 +1210,8 @@
         }
       ],
       "firstSeenAt": "2026-09-30T13:11:58.905Z",
-      "lastSeenAt": "2026-09-30T13:11:58.905Z",
-      "status": "new"
+      "lastSeenAt": "2026-09-30T14:45:09.981Z",
+      "status": "active"
     },
     {
       "id": "official-9a69764e122ec794",
@@ -1232,8 +1232,8 @@
         }
       ],
       "firstSeenAt": "2026-09-30T13:11:58.905Z",
-      "lastSeenAt": "2026-09-30T13:11:58.905Z",
-      "status": "new"
+      "lastSeenAt": "2026-09-30T14:45:09.981Z",
+      "status": "active"
     },
     {
       "id": "official-daa22a7d2f709524",
@@ -1254,7 +1254,7 @@
         }
       ],
       "firstSeenAt": "2026-09-30T09:32:49.629Z",
-      "lastSeenAt": "2026-09-30T13:11:58.905Z",
+      "lastSeenAt": "2026-09-30T14:45:09.981Z",
       "status": "active"
     }
   ],

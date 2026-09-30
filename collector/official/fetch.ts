@@ -121,3 +121,23 @@ export async function fetchOfficialJson<T>(
     throw new Error("官网接口没有返回有效 JSON");
   }
 }
+
+export async function fetchOfficialFormJson<T>(
+  value: string,
+  allowedHosts: string[],
+  config: OfficialSitesConfig["collection"],
+  request: { form: URLSearchParams; referer: string },
+): Promise<T> {
+  const response = await fetchOfficialBody(value, allowedHosts, config, {
+    method: "POST",
+    accept: "application/json",
+    contentType: "application/x-www-form-urlencoded;charset=utf-8",
+    body: request.form.toString(),
+    referer: request.referer,
+  });
+  try {
+    return JSON.parse(response.body) as T;
+  } catch {
+    throw new Error("官网接口没有返回有效 JSON");
+  }
+}

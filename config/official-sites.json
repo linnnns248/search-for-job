@@ -167,22 +167,33 @@
       "company": "晓多科技",
       "careersUrl": "https://xiaoduoai.zhiye.com/Social",
       "focusAreas": ["电商客服AI", "智能客服", "企业服务产品"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "zhiye",
-      "enabled": false,
-      "checkStatus": "reachable"
+      "companySize": "400余人",
+      "companySizeMin": 400,
+      "companySizeEvidenceUrl": "https://news.ifeng.com/c/8k58TY7mu7Z",
+      "adapter": "zhiye-classic",
+      "zhiyeClassic": {
+        "cityCodes": {
+          "成都": "5101"
+        },
+        "employmentType": "full-time",
+        "maximumPagesPerKeyword": 3
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模依据公开报道中的在岗 400 余人；使用北森 / Zhiye 社招公开接口采集，仍执行统一条件过滤。"
     },
     {
       "id": "vantron",
       "company": "万创科技 Vantron",
       "careersUrl": "https://www.vantrontech.com.cn/us/join",
       "focusAreas": ["物联网", "嵌入式", "软硬件产品"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "280人",
+      "companySizeMin": 280,
+      "companySizeEvidenceUrl": "https://pdf.dfcfw.com/pdf/H2_AN202302091582948585_1.pdf",
       "adapter": "selector",
       "enabled": false,
-      "checkStatus": "reachable"
+      "checkStatus": "reachable",
+      "notes": "官网当前有售前产品经理且明确本科及以上，但职位页未披露工作城市和全职/兼职属性；补齐可验证字段前保持关闭。"
     },
     {
       "id": "gislife",
@@ -204,7 +215,8 @@
       "companySizeMin": null,
       "adapter": "selector",
       "enabled": false,
-      "checkStatus": "reachable"
+      "checkStatus": "reachable",
+      "notes": "官网当前列出成都产品经理，但未公开岗位职责、学历、求职类型和可核验的公司人数；字段补齐前保持关闭。"
     },
     {
       "id": "pzeda",
@@ -277,11 +289,13 @@
       "company": "四川人工智能研究院",
       "careersUrl": "https://www.scairi.com.cn/join.html",
       "focusAreas": ["AI平台", "产业AI", "科研产品化"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "20-99人",
+      "companySizeMin": 20,
+      "companySizeEvidenceUrl": "https://m.zhipin.com/companys/9c7511654096691c1HN92t65F1Q~.html",
       "adapter": "selector",
       "enabled": false,
-      "checkStatus": "reachable"
+      "checkStatus": "reachable",
+      "notes": "公开公司页标注规模为 20-99 人，低于当前 100 人门槛，因此不启用。"
     },
     {
       "id": "xgimi",
@@ -375,13 +389,25 @@
     {
       "id": "baidu",
       "company": "百度",
-      "careersUrl": "https://talent.baidu.com/jobs",
+      "careersUrl": "https://talent.baidu.com/jobs/social-list",
       "focusAreas": ["Apollo", "智能云", "AI解决方案", "增长产品"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "custom",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "companySizeEvidenceUrl": "https://ir.baidu.com/static-files/f655f8c4-bfaa-41c5-872c-005087bce94f",
+      "adapter": "baidu",
+      "baidu": {
+        "cityCodes": {
+          "成都": "5101"
+        },
+        "postTypeCode": "2",
+        "recruitType": "SOCIAL",
+        "employmentType": "full-time",
+        "pageSize": 10,
+        "maximumPagesPerKeyword": 5
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模来自百度 2025 年 Form 20-F；社招岗位通过百度公开招聘接口按成都、产品类别和目标岗位名分页采集。"
     },
     {
       "id": "kuaishou",
