@@ -1,5 +1,19 @@
 {
   "schemaVersion": 1,
+  "onboardingPolicy": {
+    "deferredSourceIds": [
+      "ubisoft-chengdu",
+      "perfect-world-games",
+      "xishanju",
+      "duoyi",
+      "star-union",
+      "peakx-games",
+      "windplay",
+      "pitaya",
+      "tap4fun"
+    ],
+    "deferredReason": "用户确认纯游戏类公司暂缓录入，优先接入非游戏公司官网。腾讯等综合公司不在此列，仍只发布符合统一条件的产品方向岗位。"
+  },
   "collection": {
     "requestTimeoutMs": 30000,
     "maximumResponseBytes": 2097152,

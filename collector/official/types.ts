@@ -58,6 +58,10 @@ export interface OfficialSiteSource {
 
 export interface OfficialSitesConfig {
   schemaVersion: 1;
+  onboardingPolicy?: {
+    deferredSourceIds: string[];
+    deferredReason: string;
+  };
   collection: {
     requestTimeoutMs: number;
     maximumResponseBytes: number;

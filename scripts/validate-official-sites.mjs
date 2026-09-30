@@ -84,5 +84,20 @@ for (const source of config.sources) {
 }
 
 const enabled = config.sources.filter((source) => source.enabled).length;
+const deferredIds = config.onboardingPolicy?.deferredSourceIds ?? [];
+if (!Array.isArray(deferredIds) || new Set(deferredIds).size !== deferredIds.length) {
+  throw new Error("官网延后接入来源必须是不重复的数组");
+}
+if (config.onboardingPolicy
+  && (typeof config.onboardingPolicy.deferredReason !== "string"
+    || !config.onboardingPolicy.deferredReason.trim())) {
+  throw new Error("官网延后接入策略缺少原因");
+}
+for (const id of deferredIds) {
+  const source = config.sources.find((candidate) => candidate.id === id);
+  if (!source) throw new Error(`官网延后接入来源不存在：${id}`);
+  if (source.enabled) throw new Error(`官网延后接入来源不能同时启用：${id}`);
+}
 console.log(`官网来源配置通过：${config.sources.length} 个入口，${enabled} 个已启用`);
+console.log(`延后接入：${deferredIds.length} 个纯游戏类公司`);
 console.log(`适配器分布：${JSON.stringify(adapters)}`);

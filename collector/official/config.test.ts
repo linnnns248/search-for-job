@@ -79,4 +79,32 @@ describe("official site config", () => {
       }],
     })).toThrow(/HTTPS/);
   });
+
+  it("keeps deferred onboarding sources disabled", () => {
+    expect(() => validateOfficialSitesConfig({
+      schemaVersion: 1,
+      onboardingPolicy: {
+        deferredSourceIds: ["game-company"],
+        deferredReason: "纯游戏公司暂缓接入",
+      },
+      collection,
+      publicationPolicy: {
+        allowUndisclosedSalary: true,
+        allowUndisclosedEducation: false,
+        allowUndisclosedEmploymentType: false,
+      },
+      sources: [{
+        id: "game-company",
+        company: "游戏公司",
+        careersUrl: "https://careers.example.com/jobs",
+        focusAreas: ["游戏"],
+        companySize: "100-499人",
+        companySizeMin: 100,
+        adapter: "selector",
+        selectors: { card: ".job", title: ".title", url: "a" },
+        enabled: true,
+        checkStatus: "reachable",
+      }],
+    })).toThrow(/不能同时启用/);
+  });
 });

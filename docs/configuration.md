@@ -31,6 +31,8 @@ Boss 数据源参数位于 `config/collector.json`：
 
 公司官网清单位于 `config/official-sites.json`。每条来源包含稳定 ID、公司名称、招聘页链接、关注方向、公司规模、适配器类型、检查状态和是否启用。
 
+`onboardingPolicy.deferredSourceIds` 用于保存“暂缓开发”的来源，与已实现后的 `enabled` 开关分开。当前纯游戏类公司位于延后清单，新设备或新 Codex 会从版本化配置中继承该优先级。
+
 新来源先以 `enabled: false` 加入。只有确认公司规模、完成适配器并通过岗位字段验证后才允许启用。当前适配器类型包括 `json-ld`、`selector`、`cloudview`、`moka`、`zhiye`、`tencent`、`meituan`、`custom` 和 `pending`。
 
 Zhiye 来源可在单站点 `zhiye` 配置中调整招聘类型（社招/校招）、每页数量和每关键词最大页数。采集关键词仍统一读取公开配置的 `titleIncludeKeywords`，避免站点配置复制业务条件。

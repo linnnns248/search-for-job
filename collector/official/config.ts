@@ -137,6 +137,21 @@ export function validateOfficialSitesConfig(value: unknown): OfficialSitesConfig
   }
   const ids = new Set<string>();
   for (const source of config.sources) validateSource(source, ids);
+  if (config.onboardingPolicy) {
+    const deferredIds = config.onboardingPolicy.deferredSourceIds;
+    if (!Array.isArray(deferredIds) || new Set(deferredIds).size !== deferredIds.length) {
+      throw new Error("官网延后接入来源必须是不重复的数组");
+    }
+    for (const id of deferredIds) {
+      if (!ids.has(id)) throw new Error(`官网延后接入来源不存在：${id}`);
+      const source = config.sources.find((candidate) => candidate.id === id);
+      if (source?.enabled) throw new Error(`官网延后接入来源不能同时启用：${id}`);
+    }
+    if (typeof config.onboardingPolicy.deferredReason !== "string"
+      || !config.onboardingPolicy.deferredReason.trim()) {
+      throw new Error("官网延后接入策略缺少原因");
+    }
+  }
   return config as OfficialSitesConfig;
 }
 
