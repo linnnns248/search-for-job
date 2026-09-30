@@ -29,7 +29,11 @@ Boss 数据源参数位于 `config/collector.json`：
 
 ## 官网配置
 
-公司官网清单将在 `v0.3.0` 加入。每条来源至少包含公司名称、招聘页链接、公司规模、适配器类型、是否启用。官网不披露薪资时记录“未披露”，不做推测。
+公司官网清单位于 `config/official-sites.json`。每条来源包含稳定 ID、公司名称、招聘页链接、关注方向、公司规模、适配器类型、检查状态和是否启用。
+
+新来源先以 `enabled: false` 加入。只有确认公司规模、完成适配器并通过岗位字段验证后才允许启用。当前适配器类型包括 `json-ld`、`selector`、`moka`、`zhiye`、`custom` 和 `pending`。
+
+`publicationPolicy` 控制官网缺失字段的发布口径。当前允许薪资未披露，但不允许学历或求职类型未披露。完整清单和启用门槛见 `docs/official-sites.md`。
 
 ## 配置版本
 

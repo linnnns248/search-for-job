@@ -50,8 +50,11 @@ npm run collector:install
 
 - `public/data/config.json`：城市、搜索词、岗位名称过滤词、求职类型、学历、薪资、公司规模和定时配置。
 - `config/collector.json`：Boss 城市/求职类型编码、分页、访问节奏和单次上限，不含账号信息。
+- `config/official-sites.json`：46 个公司官网入口、适配器分类、验证状态和缺失字段策略；未验证来源默认关闭。
 - `public/data/jobs.json`：网页可公开读取的岗位数据。
 - `schemas/`：采集端与页面共享的数据协议。
+
+`v0.3.0` 官网接入进度和启用门槛见 `docs/official-sites.md`。
 
 ## GitHub Pages
 

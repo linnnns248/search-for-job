@@ -1,0 +1,61 @@
+import type { EducationLevel, EmploymentType } from "../../src/types";
+
+export type OfficialAdapterType = "json-ld" | "selector" | "moka" | "zhiye" | "custom" | "pending";
+export type OfficialSourceCheckStatus = "reachable" | "needs-browser" | "unavailable" | "pending";
+
+export interface SelectorAdapterConfig {
+  card: string;
+  title: string;
+  url: string;
+  company?: string;
+  city?: string;
+  description?: string;
+  salary?: string;
+  education?: string;
+  employmentType?: string;
+  urlAttribute?: string;
+}
+
+export interface OfficialSiteSource {
+  id: string;
+  company: string;
+  careersUrl: string;
+  focusAreas: string[];
+  companySize: string | null;
+  companySizeMin: number | null;
+  companySizeEvidenceUrl?: string;
+  adapter: OfficialAdapterType;
+  selectors?: SelectorAdapterConfig;
+  enabled: boolean;
+  checkStatus: OfficialSourceCheckStatus;
+  notes?: string;
+}
+
+export interface OfficialSitesConfig {
+  schemaVersion: 1;
+  publicationPolicy: {
+    allowUndisclosedSalary: boolean;
+    allowUndisclosedEducation: boolean;
+    allowUndisclosedEmploymentType: boolean;
+  };
+  sources: OfficialSiteSource[];
+}
+
+export interface OfficialJobCandidate {
+  sourceId: string;
+  sourceName: string;
+  company: string;
+  companySize: string;
+  companySizeMin: number;
+  title: string;
+  description: string;
+  salary: string;
+  salaryMinK: number | null;
+  salaryMaxK: number | null;
+  education: string;
+  educationLevel: EducationLevel | null;
+  employmentType: EmploymentType | null;
+  city: string;
+  url: string;
+  sourceKey: string;
+}

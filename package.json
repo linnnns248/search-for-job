@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "validate:data": "node scripts/validate-data.mjs",
-    "build": "npm run validate:data && tsc --noEmit && vite build",
+    "validate:official-sites": "node scripts/validate-official-sites.mjs",
+    "typecheck:collector": "tsc -p tsconfig.collector.json --noEmit",
+    "build": "npm run validate:official-sites && npm run validate:data && tsc --noEmit && npm run typecheck:collector && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "collector:serve": "tsx collector/server.ts",

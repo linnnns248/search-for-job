@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://linnnns248.github.io/search-for-job/schemas/official-sites.schema.json",
+  "title": "Official careers site configuration",
+  "type": "object",
+  "required": ["schemaVersion", "publicationPolicy", "sources"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "publicationPolicy": {
+      "type": "object",
+      "required": ["allowUndisclosedSalary", "allowUndisclosedEducation", "allowUndisclosedEmploymentType"],
+      "properties": {
+        "allowUndisclosedSalary": { "type": "boolean" },
+        "allowUndisclosedEducation": { "type": "boolean" },
+        "allowUndisclosedEmploymentType": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "company",
+          "careersUrl",
+          "focusAreas",
+          "companySize",
+          "companySizeMin",
+          "adapter",
+          "enabled",
+          "checkStatus"
+        ],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+          "company": { "type": "string", "minLength": 1 },
+          "careersUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+          "focusAreas": { "type": "array", "items": { "type": "string" } },
+          "companySize": { "type": ["string", "null"] },
+          "companySizeMin": { "type": ["integer", "null"], "minimum": 0 },
+          "companySizeEvidenceUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
+          "adapter": { "enum": ["json-ld", "selector", "moka", "zhiye", "custom", "pending"] },
+          "selectors": {
+            "type": "object",
+            "required": ["card", "title", "url"],
+            "properties": {
+              "card": { "type": "string", "minLength": 1 },
+              "title": { "type": "string", "minLength": 1 },
+              "url": { "type": "string", "minLength": 1 },
+              "company": { "type": "string" },
+              "city": { "type": "string" },
+              "description": { "type": "string" },
+              "salary": { "type": "string" },
+              "education": { "type": "string" },
+              "employmentType": { "type": "string" },
+              "urlAttribute": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "enabled": { "type": "boolean" },
+          "checkStatus": { "enum": ["reachable", "needs-browser", "unavailable", "pending"] },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}
