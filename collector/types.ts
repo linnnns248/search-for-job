@@ -1,4 +1,4 @@
-import type { JobDataset, JobRecord } from "../src/types";
+import type { EducationLevel, EmploymentType, JobDataset, JobRecord } from "../src/types";
 
 export interface CityConfig {
   name: string;
@@ -10,10 +10,20 @@ export interface BossCollectorConfig {
   cities: CityConfig[];
   keywords: string[];
   titleIncludeKeywords: string[];
+  employmentTypes: Array<{ name: EmploymentType; bossCode: string }>;
+  minimumEducation: EducationLevel;
+  minimumSalaryK: number | null;
+  maximumSalaryK: number | null;
   minimumCompanySize: number;
   maximumPagesPerKeyword: number;
+  maximumDetailsPerRun: number;
   minimumDelayMs: number;
   maximumDelayMs: number;
+  minimumKeywordPauseMs: number;
+  maximumKeywordPauseMs: number;
+  detailBatchSize: number;
+  minimumBatchPauseMs: number;
+  maximumBatchPauseMs: number;
 }
 
 export interface CollectorConfig {
@@ -21,9 +31,16 @@ export interface CollectorConfig {
   boss: {
     enabled: boolean;
     cityCodes: Record<string, string>;
+    employmentTypeCodes: Record<EmploymentType, string>;
     maximumPagesPerKeyword: number;
+    maximumDetailsPerRun: number;
     minimumDelayMs: number;
     maximumDelayMs: number;
+    minimumKeywordPauseMs: number;
+    maximumKeywordPauseMs: number;
+    detailBatchSize: number;
+    minimumBatchPauseMs: number;
+    maximumBatchPauseMs: number;
   };
 }
 
@@ -35,6 +52,9 @@ export interface BossJobCandidate {
   salary: string;
   salaryMinK: number | null;
   salaryMaxK: number | null;
+  education: string;
+  educationLevel: EducationLevel | null;
+  employmentType: EmploymentType;
   city: string;
   url: string;
   description: string;

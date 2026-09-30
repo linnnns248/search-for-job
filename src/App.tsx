@@ -103,7 +103,8 @@ function App() {
             <p className="eyebrow">CHENGDU · PRODUCT ROLES</p>
             <h1>把分散的岗位，<br />收进一张清晰的表。</h1>
             <p className="hero-description">
-              聚合 Boss 直聘与公司官网，统一整理成都地区、100 人以上公司的产品经理岗位。
+              聚合 Boss 直聘与公司官网，统一整理成都地区、100 人以上公司，且全职、本科及以上、
+              月薪下限 10K 及以上的产品经理岗位。
             </p>
             <div className="hero-meta">
               <span>最近更新 {formatDateTime(dataset.generatedAt)}</span>

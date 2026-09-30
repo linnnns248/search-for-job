@@ -6,6 +6,7 @@ import {
   parseBossJobDescription,
   parseBossSearchPage,
   parseCompanySizeMin,
+  parseEducationRequirement,
   parseSalary,
 } from "./parse";
 
@@ -16,6 +17,7 @@ describe("Boss 页面解析", () => {
         <a class="job-card-left" href="/job_detail/abc123.html">
           <span class="job-name">AI产品经理</span><span class="salary">20-30K·14薪</span>
         </a>
+        <ul class="tag-list"><li>3-5年</li><li>本科</li></ul>
         <h3 class="company-name">成都示例科技</h3>
         <ul class="company-tag-list"><li>互联网</li><li>500-999人</li></ul>
       </li></ul>`,
@@ -29,6 +31,9 @@ describe("Boss 页面解析", () => {
       title: "AI产品经理",
       salaryMinK: 20,
       salaryMaxK: 30,
+      education: "本科",
+      educationLevel: "bachelor",
+      employmentType: "full-time",
       city: "成都",
       url: "https://www.zhipin.com/job_detail/abc123.html",
     });
@@ -62,6 +67,9 @@ describe("Boss 页面解析", () => {
       .toBe("500-999人");
     expect(parseSalary("25-35K·13薪")).toEqual({ minimumK: 25, maximumK: 35 });
     expect(parseSalary("面议")).toEqual({ minimumK: null, maximumK: null });
+    expect(parseEducationRequirement("3-5年 本科及以上")).toEqual({ label: "本科", level: "bachelor" });
+    expect(parseEducationRequirement("硕士")).toEqual({ label: "硕士", level: "master" });
+    expect(parseEducationRequirement("学历不限")).toEqual({ label: "", level: null });
     expect(decodeBossText("\uE033\uE036-\uE034\uE036K·\uE032\uE034薪")).toBe("25-35K·13薪");
   });
 

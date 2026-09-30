@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "成都岗位采集助手",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "在普通 Chrome 登录状态下定时采集 Boss 公开岗位，并发送给本地岗位看板。",
   "permissions": ["alarms", "storage", "tabs", "notifications"],
   "host_permissions": [

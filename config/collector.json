@@ -5,8 +5,18 @@
     "cityCodes": {
       "成都": "101270100"
     },
-    "maximumPagesPerKeyword": 1,
-    "minimumDelayMs": 1800,
-    "maximumDelayMs": 3200
+    "employmentTypeCodes": {
+      "full-time": "1901",
+      "part-time": "1903"
+    },
+    "maximumPagesPerKeyword": 5,
+    "maximumDetailsPerRun": 200,
+    "minimumDelayMs": 6000,
+    "maximumDelayMs": 12000,
+    "minimumKeywordPauseMs": 15000,
+    "maximumKeywordPauseMs": 20000,
+    "detailBatchSize": 20,
+    "minimumBatchPauseMs": 15000,
+    "maximumBatchPauseMs": 20000
   }
 }

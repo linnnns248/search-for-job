@@ -1,5 +1,7 @@
 const serverBaseUrl = "http://127.0.0.1:43127";
 const dailyAlarmName = "daily-job-collection";
+const collectionStepAlarmName = "job-collection-step";
+const collectionRunStorageKey = "collectionRun";
 
 interface ExtensionSettings {
   token?: string;
@@ -12,9 +14,19 @@ interface RuntimeConfig {
     cities: Array<{ name: string; bossCode: string }>;
     keywords: string[];
     titleIncludeKeywords: string[];
+    employmentTypes: Array<{ name: "full-time" | "part-time"; bossCode: string }>;
+    minimumEducation: string;
+    minimumSalaryK: number | null;
+    maximumSalaryK: number | null;
     maximumPagesPerKeyword: number;
+    maximumDetailsPerRun: number;
     minimumDelayMs: number;
     maximumDelayMs: number;
+    minimumKeywordPauseMs: number;
+    maximumKeywordPauseMs: number;
+    detailBatchSize: number;
+    minimumBatchPauseMs: number;
+    maximumBatchPauseMs: number;
   };
   schedule: {
     timezone: string;
@@ -38,12 +50,31 @@ interface Candidate {
   salary: string;
   salaryMinK: number | null;
   salaryMaxK: number | null;
+  education: string;
+  educationLevel: string | null;
+  employmentType: "full-time" | "part-time";
   city: string;
   url: string;
   description: string;
 }
 
-let activeRun: Promise<void> | null = null;
+interface CollectionRun {
+  trigger: "manual" | "scheduled";
+  phase: "search" | "detail";
+  tabId?: number;
+  cityIndex: number;
+  employmentTypeIndex: number;
+  keywordIndex: number;
+  page: number;
+  previousPageFingerprint: string;
+  completedQueries: number;
+  candidates: Candidate[];
+  detailIndex: number;
+  completedJobs: Candidate[];
+  startedAt: string;
+}
+
+let activeStep: Promise<void> | null = null;
 
 async function getSettings(): Promise<ExtensionSettings> {
   return chrome.storage.local.get(["token", "scheduleTime"]);
@@ -92,15 +123,15 @@ function localDateInShanghai(): string {
   }).format(new Date());
 }
 
-function randomDelay(minimumMs: number, maximumMs: number): Promise<void> {
-  const duration = Math.floor(minimumMs + Math.random() * (maximumMs - minimumMs + 1));
-  return new Promise((resolve) => setTimeout(resolve, duration));
+function randomDuration(minimumMs: number, maximumMs: number): number {
+  return Math.floor(minimumMs + Math.random() * (maximumMs - minimumMs + 1));
 }
 
-function searchUrl(keyword: string, cityCode: string, page: number): string {
+function searchUrl(keyword: string, cityCode: string, employmentTypeCode: string, page: number): string {
   const url = new URL("https://www.zhipin.com/web/geek/jobs");
   url.searchParams.set("query", keyword);
   url.searchParams.set("city", cityCode);
+  url.searchParams.set("jobType", employmentTypeCode);
   if (page > 1) url.searchParams.set("page", String(page));
   return url.toString();
 }
@@ -144,78 +175,197 @@ async function scheduleDaily(time: string): Promise<void> {
   await chrome.storage.local.set({ scheduleTime: time });
 }
 
-async function runCollection(trigger: "manual" | "scheduled"): Promise<void> {
-  if (activeRun) return activeRun;
-  activeRun = (async () => {
-    let tabId: number | undefined;
+async function getCollectionRun(): Promise<CollectionRun | null> {
+  const stored = await chrome.storage.local.get(collectionRunStorageKey);
+  return (stored[collectionRunStorageKey] as CollectionRun | undefined) ?? null;
+}
+
+async function saveCollectionRun(run: CollectionRun): Promise<void> {
+  await chrome.storage.local.set({ [collectionRunStorageKey]: run });
+}
+
+async function scheduleCollectionStep(delayMs: number): Promise<void> {
+  await chrome.alarms.create(collectionStepAlarmName, { when: Date.now() + delayMs });
+}
+
+async function ensureCollectionTab(run: CollectionRun): Promise<number> {
+  if (run.tabId) {
+    const existing = await chrome.tabs.get(run.tabId).catch(() => undefined);
+    if (existing?.id) return existing.id;
+  }
+  const tab = await chrome.tabs.create({ url: "about:blank", active: false });
+  if (!tab.id) throw new Error("无法创建 Boss 采集标签页");
+  run.tabId = tab.id;
+  await saveCollectionRun(run);
+  return tab.id;
+}
+
+async function clearCollectionRun(run: CollectionRun): Promise<void> {
+  await chrome.alarms.clear(collectionStepAlarmName);
+  await chrome.storage.local.remove(collectionRunStorageKey);
+  if (run.tabId) await chrome.tabs.remove(run.tabId).catch(() => undefined);
+}
+
+function moveToNextQuery(run: CollectionRun, config: RuntimeConfig): boolean {
+  run.completedQueries += 1;
+  run.page = 1;
+  run.previousPageFingerprint = "";
+  run.keywordIndex += 1;
+  if (run.keywordIndex < config.boss.keywords.length) return true;
+  run.keywordIndex = 0;
+  run.employmentTypeIndex += 1;
+  if (run.employmentTypeIndex < config.boss.employmentTypes.length) return true;
+  run.employmentTypeIndex = 0;
+  run.cityIndex += 1;
+  return run.cityIndex < config.boss.cities.length;
+}
+
+async function failCollection(run: CollectionRun, error: unknown): Promise<void> {
+  const message = error instanceof Error ? error.message : String(error);
+  await clearCollectionRun(run);
+  await setStatus("error", message);
+  await notify("岗位采集需要处理", message).catch(() => undefined);
+}
+
+async function completeCollection(run: CollectionRun): Promise<void> {
+  if (run.completedJobs.length === 0) throw new Error("没有可发布岗位，原数据未修改");
+  const result = await api<{ accepted: number; total: number }>("/ingest", {
+    method: "POST",
+    body: JSON.stringify({ jobs: run.completedJobs }),
+  });
+  await clearCollectionRun(run);
+  await setStatus("success", `采集完成：新增或更新 ${result.accepted} 个岗位`, result);
+  await notify("岗位采集完成", `本次处理 ${result.accepted} 个岗位，当前共 ${result.total} 个。`)
+    .catch(() => undefined);
+}
+
+async function advanceCollectionRun(): Promise<void> {
+  if (activeStep) return activeStep;
+  activeStep = (async () => {
+    const run = await getCollectionRun();
+    if (!run) return;
     try {
-      await setStatus("running", trigger === "manual" ? "正在手动采集" : "正在执行定时采集");
       const config = await api<RuntimeConfig>("/config");
-      await scheduleDaily(config.schedule.time);
-      if (trigger === "scheduled" && config.schedule.statutoryWorkdaysOnly) {
-        const date = localDateInShanghai();
-        const decision = await api<{ shouldRun: boolean }>(`/should-run?date=${date}`);
-        if (!decision.shouldRun) {
-          await setStatus("skipped", `${date} 不是中国法定工作日，已跳过`);
-          return;
-        }
-      }
-      if (!config.boss.enabled) throw new Error("Boss 数据源未启用");
-
-      const tab = await chrome.tabs.create({ url: "about:blank", active: false });
-      if (!tab.id) throw new Error("无法创建 Boss 采集标签页");
-      tabId = tab.id;
-      const candidates = new Map<string, Candidate>();
-
-      for (const city of config.boss.cities) {
-        for (const keyword of config.boss.keywords) {
-          for (let page = 1; page <= config.boss.maximumPagesPerKeyword; page += 1) {
-            await setStatus("running", `正在采集 ${city.name} / ${keyword} / 第 ${page} 页`);
-            const snapshot = await navigate(tabId, searchUrl(keyword, city.bossCode, page));
-            const parsed = await api<{ jobs: Candidate[] }>("/parse-search", {
-              method: "POST",
-              body: JSON.stringify({ html: snapshot.html, city: city.name }),
-            });
-            if (parsed.jobs.length === 0) break;
-            for (const job of parsed.jobs) candidates.set(job.url, job);
-            await randomDelay(config.boss.minimumDelayMs, config.boss.maximumDelayMs);
-          }
-        }
-      }
-
-      if (candidates.size === 0) throw new Error("没有识别到岗位卡片，原数据未修改");
-      const completedJobs: Candidate[] = [];
-      let current = 0;
-      for (const candidate of candidates.values()) {
-        current += 1;
-        await setStatus("running", `正在读取岗位详情 ${current}/${candidates.size}`);
-        const snapshot = await navigate(tabId, candidate.url);
-        const parsed = await api<{ description: string }>("/parse-detail", {
+      const tabId = await ensureCollectionTab(run);
+      if (run.phase === "search") {
+        const city = config.boss.cities[run.cityIndex];
+        const employmentType = config.boss.employmentTypes[run.employmentTypeIndex];
+        const keyword = config.boss.keywords[run.keywordIndex];
+        if (!city || !employmentType || !keyword) throw new Error("采集进度与当前配置不匹配，请重新启动");
+        await setStatus("running", `正在采集 ${city.name} / ${keyword} / 第 ${run.page} 页`);
+        const snapshot = await navigate(
+          tabId,
+          searchUrl(keyword, city.bossCode, employmentType.bossCode, run.page),
+        );
+        const parsed = await api<{
+          jobs: Candidate[];
+          scanned: number;
+          pageFingerprint: string;
+        }>("/parse-search", {
           method: "POST",
-          body: JSON.stringify({ html: snapshot.html, url: snapshot.url }),
+          body: JSON.stringify({
+            html: snapshot.html,
+            city: city.name,
+            employmentType: employmentType.name,
+          }),
         });
-        if (parsed.description) completedJobs.push({ ...candidate, description: parsed.description });
-        await randomDelay(config.boss.minimumDelayMs, config.boss.maximumDelayMs);
+        const candidates = new Map(run.candidates.map((job) => [job.url, job]));
+        for (const job of parsed.jobs) candidates.set(job.url, job);
+        run.candidates = [...candidates.values()];
+        const queryFinished = parsed.scanned === 0
+          || parsed.pageFingerprint === run.previousPageFingerprint
+          || run.page >= config.boss.maximumPagesPerKeyword;
+        let delayMs = randomDuration(config.boss.minimumDelayMs, config.boss.maximumDelayMs);
+        if (queryFinished) {
+          const hasNextQuery = moveToNextQuery(run, config);
+          if (!hasNextQuery) {
+            if (run.candidates.length === 0) throw new Error("没有识别到岗位卡片，原数据未修改");
+            run.phase = "detail";
+            run.detailIndex = 0;
+          } else {
+            const queryCount = config.boss.cities.length * config.boss.keywords.length
+              * config.boss.employmentTypes.length;
+            await setStatus("running", `已完成 ${run.completedQueries}/${queryCount} 组搜索，正在冷却访问`);
+            delayMs = randomDuration(config.boss.minimumKeywordPauseMs, config.boss.maximumKeywordPauseMs);
+          }
+        } else {
+          run.previousPageFingerprint = parsed.pageFingerprint;
+          run.page += 1;
+        }
+        await saveCollectionRun(run);
+        await scheduleCollectionStep(delayMs);
+        return;
       }
 
-      const result = await api<{ accepted: number; total: number }>("/ingest", {
+      const detailCandidates = run.candidates.slice(0, config.boss.maximumDetailsPerRun);
+      if (run.detailIndex >= detailCandidates.length) {
+        await completeCollection(run);
+        return;
+      }
+      const candidate = detailCandidates[run.detailIndex];
+      await setStatus("running", `正在读取岗位详情 ${run.detailIndex + 1}/${detailCandidates.length}`);
+      const snapshot = await navigate(tabId, candidate.url);
+      const parsed = await api<{ description: string }>("/parse-detail", {
         method: "POST",
-        body: JSON.stringify({ jobs: completedJobs }),
+        body: JSON.stringify({ html: snapshot.html, url: snapshot.url }),
       });
-      await setStatus("success", `采集完成：新增或更新 ${result.accepted} 个岗位`, result);
-      await notify("岗位采集完成", `本次处理 ${result.accepted} 个岗位，当前共 ${result.total} 个。`)
-        .catch(() => undefined);
+      if (parsed.description) run.completedJobs.push({ ...candidate, description: parsed.description });
+      run.detailIndex += 1;
+      if (run.detailIndex >= detailCandidates.length) {
+        await completeCollection(run);
+        return;
+      }
+      const batchFinished = run.detailIndex % config.boss.detailBatchSize === 0;
+      if (batchFinished) {
+        await setStatus("running", `已读取 ${run.detailIndex} 个详情，正在分批冷却访问`);
+      }
+      await saveCollectionRun(run);
+      await scheduleCollectionStep(randomDuration(
+        batchFinished ? config.boss.minimumBatchPauseMs : config.boss.minimumDelayMs,
+        batchFinished ? config.boss.maximumBatchPauseMs : config.boss.maximumDelayMs,
+      ));
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      await setStatus("error", message);
-      await notify("岗位采集需要处理", message).catch(() => undefined);
-      throw error;
-    } finally {
-      if (tabId) await chrome.tabs.remove(tabId).catch(() => undefined);
-      activeRun = null;
+      await failCollection(run, error);
     }
   })();
-  return activeRun;
+  try {
+    await activeStep;
+  } finally {
+    activeStep = null;
+  }
+}
+
+async function startCollection(trigger: "manual" | "scheduled"): Promise<boolean> {
+  if (await getCollectionRun()) return false;
+  const config = await api<RuntimeConfig>("/config");
+  await scheduleDaily(config.schedule.time);
+  if (trigger === "scheduled" && config.schedule.statutoryWorkdaysOnly) {
+    const date = localDateInShanghai();
+    const decision = await api<{ shouldRun: boolean }>(`/should-run?date=${date}`);
+    if (!decision.shouldRun) {
+      await setStatus("skipped", `${date} 不是中国法定工作日，已跳过`);
+      return false;
+    }
+  }
+  if (!config.boss.enabled) throw new Error("Boss 数据源未启用");
+  const run: CollectionRun = {
+    trigger,
+    phase: "search",
+    cityIndex: 0,
+    employmentTypeIndex: 0,
+    keywordIndex: 0,
+    page: 1,
+    previousPageFingerprint: "",
+    completedQueries: 0,
+    candidates: [],
+    detailIndex: 0,
+    completedJobs: [],
+    startedAt: new Date().toISOString(),
+  };
+  await saveCollectionRun(run);
+  await setStatus("running", trigger === "manual" ? "正在手动采集" : "正在执行定时采集");
+  void advanceCollectionRun();
+  return true;
 }
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -224,10 +374,16 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.runtime.onStartup.addListener(() => {
   void getSettings().then(({ scheduleTime }) => scheduleDaily(scheduleTime ?? "23:00"));
+  void getCollectionRun().then((run) => {
+    if (run) return scheduleCollectionStep(1_000);
+  });
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === dailyAlarmName) void runCollection("scheduled").catch(() => undefined);
+  if (alarm.name === dailyAlarmName) void startCollection("scheduled").catch(async (error) => {
+    await setStatus("error", error instanceof Error ? error.message : String(error));
+  });
+  if (alarm.name === collectionStepAlarmName) void advanceCollectionRun();
 });
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
@@ -236,7 +392,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
     return true;
   }
   if (message?.type === "run-now") {
-    void runCollection("manual").then(() => sendResponse({ ok: true })).catch((error) => {
+    void startCollection("manual").then((started) => sendResponse({ ok: true, started })).catch((error) => {
       sendResponse({ ok: false, error: error instanceof Error ? error.message : String(error) });
     });
     return true;

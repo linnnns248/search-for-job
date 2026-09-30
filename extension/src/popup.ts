@@ -18,11 +18,20 @@ saveButton.addEventListener("click", async () => {
 
 runButton.addEventListener("click", async () => {
   runButton.disabled = true;
-  statusElement.textContent = "已启动采集，请保持 Chrome 和本地接收器运行";
-  const result = await chrome.runtime.sendMessage({ type: "run-now" });
-  if (!result?.ok) statusElement.textContent = result?.error ?? "采集失败";
-  await refresh();
-  runButton.disabled = false;
+  try {
+    const result = await chrome.runtime.sendMessage({ type: "run-now" });
+    if (!result?.ok) {
+      statusElement.textContent = result?.error ?? "采集启动失败";
+      return;
+    }
+    statusElement.textContent = result.started
+      ? "已启动采集，可关闭此弹窗；请保持 Chrome 和本地接收器运行"
+      : "采集已在运行，无需重复启动";
+  } catch (error) {
+    statusElement.textContent = error instanceof Error ? error.message : "采集启动失败";
+  } finally {
+    runButton.disabled = false;
+  }
 });
 
 void refresh();

@@ -3,11 +3,26 @@
   "$id": "https://linnnns248.github.io/search-for-job/schemas/search-config.schema.json",
   "title": "Search configuration",
   "type": "object",
-  "required": ["schemaVersion", "cities", "keywords", "salary", "companySize", "schedule"],
+  "required": ["schemaVersion", "cities", "keywords", "titleIncludeKeywords", "employmentTypes", "education", "salary", "companySize", "schedule"],
   "properties": {
     "schemaVersion": { "const": 1 },
     "cities": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
     "keywords": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "titleIncludeKeywords": { "type": "array", "minItems": 1, "items": { "type": "string", "minLength": 1 } },
+    "employmentTypes": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["full-time", "part-time"] }
+    },
+    "education": {
+      "type": "object",
+      "required": ["minimum"],
+      "properties": {
+        "minimum": { "enum": ["middle-school", "technical-school", "high-school", "associate", "bachelor", "master", "doctor"] }
+      },
+      "additionalProperties": false
+    },
     "salary": {
       "type": "object",
       "required": ["minimumK", "maximumK"],

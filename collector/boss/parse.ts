@@ -1,9 +1,30 @@
 import { load } from "cheerio";
 import type { AnyNode } from "domhandler";
+import type { EducationLevel, EmploymentType } from "../../src/types";
 import type { BossJobCandidate } from "../types";
 
 const cardSelectors = [".job-card-wrapper", ".job-card-box", ".job-list-box li"];
 const detailSelectors = [".job-sec-text", ".job-detail-section", ".job-detail", ".job-description"];
+
+const educationPatterns: Array<{ level: EducationLevel; label: string; pattern: RegExp }> = [
+  { level: "doctor", label: "博士", pattern: /博士(?:及以上)?/ },
+  { level: "master", label: "硕士", pattern: /硕士(?:及以上)?/ },
+  { level: "bachelor", label: "本科", pattern: /本科(?:及以上)?/ },
+  { level: "associate", label: "大专", pattern: /大专(?:及以上)?/ },
+  { level: "high-school", label: "高中", pattern: /高中(?:及以上)?/ },
+  { level: "technical-school", label: "中专/中技", pattern: /中专|中技/ },
+  { level: "middle-school", label: "初中及以下", pattern: /初中(?:及以下)?/ },
+];
+
+export const educationRanks: Record<EducationLevel, number> = {
+  "middle-school": 1,
+  "technical-school": 2,
+  "high-school": 3,
+  associate: 4,
+  bachelor: 5,
+  master: 6,
+  doctor: 7,
+};
 
 export function decodeBossText(value: string): string {
   return value.replace(/[\uE031-\uE03A]/g, (character) => String(character.codePointAt(0)! - 0xE031));
@@ -48,7 +69,19 @@ export function parseSalary(value: string): { minimumK: number | null; maximumK:
   return { minimumK: amount, maximumK: amount };
 }
 
-export function parseBossSearchPage(html: string, city: string): BossJobCandidate[] {
+export function parseEducationRequirement(value: string): { label: string; level: EducationLevel | null } {
+  const normalized = value.replace(/\s+/g, "");
+  for (const candidate of educationPatterns) {
+    if (candidate.pattern.test(normalized)) return { label: candidate.label, level: candidate.level };
+  }
+  return { label: "", level: null };
+}
+
+export function parseBossSearchPage(
+  html: string,
+  city: string,
+  employmentType: EmploymentType = "full-time",
+): BossJobCandidate[] {
   const $ = load(html);
   let cards = $(cardSelectors[0]);
   for (const selector of cardSelectors.slice(1)) {
@@ -99,6 +132,7 @@ export function parseBossSearchPage(html: string, city: string): BossJobCandidat
       ]);
       const href = firstAttribute(card, ["a.job-card-left", "a.job-name", "a[href*='/job_detail/']"], "href");
       const salaryRange = parseSalary(salary);
+      const education = parseEducationRequirement(decodeBossText(card.text()));
       const url = href ? new URL(href, "https://www.zhipin.com").toString() : "";
 
       return {
@@ -109,6 +143,9 @@ export function parseBossSearchPage(html: string, city: string): BossJobCandidat
         salary: salary || "未披露",
         salaryMinK: salaryRange.minimumK,
         salaryMaxK: salaryRange.maximumK,
+        education: education.label,
+        educationLevel: education.level,
+        employmentType,
         city,
         url,
         description: "",

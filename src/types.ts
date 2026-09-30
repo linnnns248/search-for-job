@@ -1,5 +1,7 @@
 export type JobStatus = "new" | "active" | "updated" | "suspected_offline" | "offline";
 export type SourceType = "boss" | "official";
+export type EmploymentType = "full-time" | "part-time";
+export type EducationLevel = "middle-school" | "technical-school" | "high-school" | "associate" | "bachelor" | "master" | "doctor";
 
 export interface JobSource {
   type: SourceType;
@@ -28,6 +30,7 @@ export interface JobDataset {
   schemaVersion: number;
   generatedAt: string;
   isDemo: boolean;
+  criteriaSignature?: string;
   jobs: JobRecord[];
 }
 
@@ -36,6 +39,10 @@ export interface SearchConfig {
   cities: string[];
   keywords: string[];
   titleIncludeKeywords: string[];
+  employmentTypes: EmploymentType[];
+  education: {
+    minimum: EducationLevel;
+  };
   salary: {
     minimumK: number | null;
     maximumK: number | null;

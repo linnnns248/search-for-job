@@ -13,8 +13,12 @@
     "AI产品经理"
   ],
   "titleIncludeKeywords": ["产品经理", "产品负责人", "产品总监", "Product Manager"],
+  "employmentTypes": ["full-time"],
+  "education": {
+    "minimum": "bachelor"
+  },
   "salary": {
-    "minimumK": null,
+    "minimumK": 10,
     "maximumK": null
   },
   "companySize": {

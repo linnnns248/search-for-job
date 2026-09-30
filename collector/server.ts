@@ -1,9 +1,10 @@
-import { randomBytes } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { JobDataset } from "../src/types";
+import type { EmploymentType, JobDataset } from "../src/types";
 import {
+  educationRanks,
   parseBossCompanySize,
   parseBossJobDescription,
   parseBossSearchPage,
@@ -11,6 +12,7 @@ import {
 } from "./boss/parse";
 import { isChineseStatutoryWorkday } from "./calendar";
 import { loadCollectorConfig, loadSearchConfig, projectRoot, publicJobsPath } from "./config";
+import { matchesConfiguredCriteria } from "./criteria";
 import { mergeCollectedJobs } from "./merge";
 import { normalizeBossJob } from "./normalize";
 import type { BossJobCandidate } from "./types";
@@ -18,6 +20,18 @@ import type { BossJobCandidate } from "./types";
 const port = 43127;
 const tokenPath = path.join(projectRoot, ".collector", "extension-token");
 const detailMetadata = new Map<string, { companySize: string; companySizeMin: number | null }>();
+
+function criteriaSignature(searchConfig: Awaited<ReturnType<typeof loadSearchConfig>>): string {
+  return createHash("sha256").update(JSON.stringify({
+    cities: searchConfig.cities,
+    keywords: searchConfig.keywords,
+    titleIncludeKeywords: searchConfig.titleIncludeKeywords,
+    employmentTypes: searchConfig.employmentTypes,
+    education: searchConfig.education,
+    salary: searchConfig.salary,
+    companySize: searchConfig.companySize,
+  })).digest("hex").slice(0, 16);
+}
 
 async function loadOrCreateToken(): Promise<string> {
   await mkdir(path.dirname(tokenPath), { recursive: true });
@@ -75,6 +89,14 @@ function sanitizeCandidate(value: unknown): BossJobCandidate {
     if (typeof fieldValue !== "string") throw new Error(`岗位字段 ${field} 无效`);
     return fieldValue.trim().slice(0, maximumLength);
   };
+  const educationLevel = candidate.educationLevel;
+  if (educationLevel !== null && educationLevel !== undefined && !(educationLevel in educationRanks)) {
+    throw new Error("岗位学历字段无效");
+  }
+  const employmentType = stringField("employmentType", 50) as EmploymentType;
+  if (employmentType !== "full-time" && employmentType !== "part-time") {
+    throw new Error("岗位求职类型字段无效");
+  }
   return {
     company: stringField("company", 200),
     companySize: stringField("companySize", 100),
@@ -83,6 +105,9 @@ function sanitizeCandidate(value: unknown): BossJobCandidate {
     salary: stringField("salary", 100) || "未披露",
     salaryMinK: typeof candidate.salaryMinK === "number" ? candidate.salaryMinK : null,
     salaryMaxK: typeof candidate.salaryMaxK === "number" ? candidate.salaryMaxK : null,
+    education: stringField("education", 100),
+    educationLevel: educationLevel ?? null,
+    employmentType,
     city: stringField("city", 100),
     url: validateBossUrl(candidate.url),
     description: stringField("description", 20_000),
@@ -123,16 +148,23 @@ async function startServer(): Promise<void> {
     }
     if (request.method === "POST" && requestUrl.pathname === "/parse-search") {
       const body = await readJson(request);
-      if (typeof body.html !== "string" || typeof body.city !== "string") throw new Error("搜索页参数无效");
+      if (typeof body.html !== "string" || typeof body.city !== "string" || typeof body.employmentType !== "string") {
+        throw new Error("搜索页参数无效");
+      }
+      const employmentType = body.employmentType as EmploymentType;
+      if (!collectorConfig.boss.employmentTypes.some((type) => type.name === employmentType)) {
+        throw new Error("求职类型不在允许配置中");
+      }
       // 新版 Boss 搜索卡片不再稳定展示公司规模。先返回候选岗位，待详情页补齐
       // 公司规模后再按配置过滤，避免把所有有效岗位提前丢弃。
-      const jobs = parseBossSearchPage(body.html, body.city).filter((job) =>
-        collectorConfig.boss.titleIncludeKeywords.some((keyword) =>
-          job.title.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()),
-        ),
-      );
-      console.log(`搜索页解析：${jobs.length} 个候选岗位`);
-      sendJson(response, 200, { jobs });
+      const discoveredJobs = parseBossSearchPage(body.html, body.city, employmentType);
+      const jobs = discoveredJobs.filter((job) => matchesConfiguredCriteria(job, collectorConfig.boss));
+      const pageFingerprint = createHash("sha256")
+        .update(discoveredJobs.map((job) => job.url).sort().join("\n"))
+        .digest("hex")
+        .slice(0, 16);
+      console.log(`搜索页解析：发现 ${discoveredJobs.length} 个，符合前置条件 ${jobs.length} 个`);
+      sendJson(response, 200, { jobs, scanned: discoveredJobs.length, pageFingerprint });
       return;
     }
     if (request.method === "POST" && requestUrl.pathname === "/parse-detail") {
@@ -156,14 +188,23 @@ async function startServer(): Promise<void> {
         if (!metadata || rawCandidate.companySizeMin !== null) return value;
         return { ...rawCandidate, ...metadata };
       }).map(sanitizeCandidate).filter(
-        (job) => job.description && job.companySizeMin !== null
+        (job) => matchesConfiguredCriteria(job, collectorConfig.boss)
+          && job.description && job.companySizeMin !== null
           && job.companySizeMin >= collectorConfig.boss.minimumCompanySize,
       );
       if (candidates.length === 0) throw new Error("没有可发布岗位，原数据未修改");
       const generatedAt = new Date().toISOString();
       const existing = JSON.parse(await readFile(publicJobsPath, "utf8")) as JobDataset;
       const normalized = candidates.map((job) => normalizeBossJob(job, generatedAt));
-      const dataset = mergeCollectedJobs(existing, normalized, generatedAt);
+      const currentCriteriaSignature = criteriaSignature(searchConfig);
+      const existingForCurrentCriteria = existing.criteriaSignature === currentCriteriaSignature
+        ? existing
+        : {
+            ...existing,
+            jobs: existing.jobs.filter((job) => !job.id.startsWith("boss-")),
+          };
+      const dataset = mergeCollectedJobs(existingForCurrentCriteria, normalized, generatedAt);
+      dataset.criteriaSignature = currentCriteriaSignature;
       dataset.jobs = dataset.jobs.filter((job) =>
         searchConfig.titleIncludeKeywords.some((keyword) =>
           job.title.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()),
