@@ -551,13 +551,20 @@
     {
       "id": "beisen",
       "company": "北森",
-      "careersUrl": "https://beisen2.zhiye.com/home",
+      "careersUrl": "https://beisen.zhiye.com/",
       "focusAreas": ["SaaS", "人力资源产品", "AI产品"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "1000人以上",
+      "companySizeMin": 1000,
+      "companySizeEvidenceUrl": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0622/2026062201220_c.pdf",
       "adapter": "zhiye",
-      "enabled": false,
-      "checkStatus": "reachable"
+      "zhiye": {
+        "category": "1",
+        "pageSize": 100,
+        "maximumPagesPerKeyword": 3
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "招聘入口已更新为当前北森官方站；公司规模来自 2025/2026 财年 ESG 报告，社招岗位使用 Zhiye 公开接口采集。"
     },
     {
       "id": "kingdee",
