@@ -1,6 +1,6 @@
 import type { EducationLevel, EmploymentType } from "../../src/types";
 
-export type OfficialAdapterType = "json-ld" | "selector" | "moka" | "zhiye" | "custom" | "pending";
+export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "tencent" | "meituan" | "custom" | "pending";
 export type OfficialSourceCheckStatus = "reachable" | "needs-browser" | "unavailable" | "pending";
 
 export interface SelectorAdapterConfig {
@@ -16,6 +16,28 @@ export interface SelectorAdapterConfig {
   urlAttribute?: string;
 }
 
+export interface ZhiyeAdapterConfig {
+  category: "1" | "2";
+  pageSize: number;
+  maximumPagesPerKeyword: number;
+}
+
+export interface TencentAdapterConfig {
+  cityIds: Record<string, number>;
+  recruitmentTypeId: number;
+  employmentType: EmploymentType;
+  pageSize: number;
+  maximumPagesPerKeyword: number;
+}
+
+export interface MeituanAdapterConfig {
+  cityCodes: Record<string, string>;
+  jobTypeCode: string;
+  employmentType: EmploymentType;
+  pageSize: number;
+  maximumPagesPerKeyword: number;
+}
+
 export interface OfficialSiteSource {
   id: string;
   company: string;
@@ -26,6 +48,9 @@ export interface OfficialSiteSource {
   companySizeEvidenceUrl?: string;
   adapter: OfficialAdapterType;
   selectors?: SelectorAdapterConfig;
+  zhiye?: ZhiyeAdapterConfig;
+  tencent?: TencentAdapterConfig;
+  meituan?: MeituanAdapterConfig;
   enabled: boolean;
   checkStatus: OfficialSourceCheckStatus;
   notes?: string;
@@ -33,6 +58,13 @@ export interface OfficialSiteSource {
 
 export interface OfficialSitesConfig {
   schemaVersion: 1;
+  collection: {
+    requestTimeoutMs: number;
+    maximumResponseBytes: number;
+    minimumDelayMs: number;
+    maximumDelayMs: number;
+    maximumDetailsPerSource: number;
+  };
   publicationPolicy: {
     allowUndisclosedSalary: boolean;
     allowUndisclosedEducation: boolean;

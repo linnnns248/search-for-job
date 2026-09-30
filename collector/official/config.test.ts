@@ -2,9 +2,18 @@ import { describe, expect, it } from "vitest";
 import { validateOfficialSitesConfig } from "./config";
 
 describe("official site config", () => {
+  const collection = {
+    requestTimeoutMs: 30_000,
+    maximumResponseBytes: 2_097_152,
+    minimumDelayMs: 2_500,
+    maximumDelayMs: 5_000,
+    maximumDetailsPerSource: 100,
+  };
+
   it("allows disabled onboarding sources with pending metadata", () => {
     const config = validateOfficialSitesConfig({
       schemaVersion: 1,
+      collection,
       publicationPolicy: {
         allowUndisclosedSalary: true,
         allowUndisclosedEducation: false,
@@ -28,6 +37,7 @@ describe("official site config", () => {
   it("requires size and an adapter before a source can be enabled", () => {
     expect(() => validateOfficialSitesConfig({
       schemaVersion: 1,
+      collection,
       publicationPolicy: {
         allowUndisclosedSalary: true,
         allowUndisclosedEducation: false,
@@ -50,6 +60,7 @@ describe("official site config", () => {
   it("rejects non-public or non-HTTPS URLs", () => {
     expect(() => validateOfficialSitesConfig({
       schemaVersion: 1,
+      collection,
       publicationPolicy: {
         allowUndisclosedSalary: true,
         allowUndisclosedEducation: false,

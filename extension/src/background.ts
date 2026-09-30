@@ -233,9 +233,14 @@ async function completeCollection(run: CollectionRun): Promise<void> {
     method: "POST",
     body: JSON.stringify({ jobs: run.completedJobs }),
   });
+  const official = await api<{ started: boolean; message: string }>("/collect-official", { method: "POST" });
   await clearCollectionRun(run);
-  await setStatus("success", `采集完成：新增或更新 ${result.accepted} 个岗位`, result);
-  await notify("岗位采集完成", `本次处理 ${result.accepted} 个岗位，当前共 ${result.total} 个。`)
+  await setStatus(
+    "success",
+    `Boss 采集完成：${result.accepted} 个岗位；${official.message}`,
+    { ...result, officialCollectionStarted: official.started },
+  );
+  await notify("岗位采集完成", `Boss 本次处理 ${result.accepted} 个岗位；${official.message}。`)
     .catch(() => undefined);
 }
 

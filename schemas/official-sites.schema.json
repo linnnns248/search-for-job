@@ -3,9 +3,21 @@
   "$id": "https://linnnns248.github.io/search-for-job/schemas/official-sites.schema.json",
   "title": "Official careers site configuration",
   "type": "object",
-  "required": ["schemaVersion", "publicationPolicy", "sources"],
+  "required": ["schemaVersion", "collection", "publicationPolicy", "sources"],
   "properties": {
     "schemaVersion": { "const": 1 },
+    "collection": {
+      "type": "object",
+      "required": ["requestTimeoutMs", "maximumResponseBytes", "minimumDelayMs", "maximumDelayMs", "maximumDetailsPerSource"],
+      "properties": {
+        "requestTimeoutMs": { "type": "integer", "minimum": 1000 },
+        "maximumResponseBytes": { "type": "integer", "minimum": 1024 },
+        "minimumDelayMs": { "type": "integer", "minimum": 1000 },
+        "maximumDelayMs": { "type": "integer", "minimum": 1000 },
+        "maximumDetailsPerSource": { "type": "integer", "minimum": 1 }
+      },
+      "additionalProperties": false
+    },
     "publicationPolicy": {
       "type": "object",
       "required": ["allowUndisclosedSalary", "allowUndisclosedEducation", "allowUndisclosedEmploymentType"],
@@ -39,7 +51,7 @@
           "companySize": { "type": ["string", "null"] },
           "companySizeMin": { "type": ["integer", "null"], "minimum": 0 },
           "companySizeEvidenceUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
-          "adapter": { "enum": ["json-ld", "selector", "moka", "zhiye", "custom", "pending"] },
+          "adapter": { "enum": ["json-ld", "selector", "cloudview", "moka", "zhiye", "tencent", "meituan", "custom", "pending"] },
           "selectors": {
             "type": "object",
             "required": ["card", "title", "url"],
@@ -54,6 +66,48 @@
               "education": { "type": "string" },
               "employmentType": { "type": "string" },
               "urlAttribute": { "type": "string" }
+            },
+            "additionalProperties": false
+          },
+          "zhiye": {
+            "type": "object",
+            "required": ["category", "pageSize", "maximumPagesPerKeyword"],
+            "properties": {
+              "category": { "enum": ["1", "2"] },
+              "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
+            },
+            "additionalProperties": false
+          },
+          "tencent": {
+            "type": "object",
+            "required": ["cityIds", "recruitmentTypeId", "employmentType", "pageSize", "maximumPagesPerKeyword"],
+            "properties": {
+              "cityIds": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": { "type": "integer" }
+              },
+              "recruitmentTypeId": { "type": "integer" },
+              "employmentType": { "enum": ["full-time", "part-time"] },
+              "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
+            },
+            "additionalProperties": false
+          },
+          "meituan": {
+            "type": "object",
+            "required": ["cityCodes", "jobTypeCode", "employmentType", "pageSize", "maximumPagesPerKeyword"],
+            "properties": {
+              "cityCodes": {
+                "type": "object",
+                "minProperties": 1,
+                "additionalProperties": { "type": "string", "minLength": 1 }
+              },
+              "jobTypeCode": { "type": "string", "minLength": 1 },
+              "employmentType": { "enum": ["full-time", "part-time"] },
+              "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
             },
             "additionalProperties": false
           },

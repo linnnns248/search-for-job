@@ -48,8 +48,10 @@ for (const [index, job] of jobsData.jobs.entries()) {
   if (job.companySizeMin < config.companySize.minimum) {
     throw new Error(`岗位 ${job.id} 的公司规模小于当前配置`);
   }
+  const hasOfficialSource = job.sources.some((source) => source.type === "official");
   if (datasetUsesCurrentCriteria && config.salary.minimumK !== null
-    && (job.salaryMinK === null || job.salaryMinK < config.salary.minimumK)) {
+    && ((job.salaryMinK === null && !hasOfficialSource)
+      || (job.salaryMinK !== null && job.salaryMinK < config.salary.minimumK))) {
     throw new Error(`岗位 ${job.id} 的薪资下限小于当前配置`);
   }
 }

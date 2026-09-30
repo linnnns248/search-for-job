@@ -1,5 +1,12 @@
 {
   "schemaVersion": 1,
+  "collection": {
+    "requestTimeoutMs": 30000,
+    "maximumResponseBytes": 2097152,
+    "minimumDelayMs": 2500,
+    "maximumDelayMs": 5000,
+    "maximumDetailsPerSource": 100
+  },
   "publicationPolicy": {
     "allowUndisclosedSalary": true,
     "allowUndisclosedEducation": false,
@@ -96,14 +103,16 @@
     },
     {
       "id": "cloudview",
-      "company": "云览科技 CloudView",
+      "company": "云览科技",
       "careersUrl": "https://cloudview-inc.com/join/jobs",
       "focusAreas": ["音乐", "小说", "广告", "浏览器", "AI产品"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "selector",
+      "companySize": "100-499人",
+      "companySizeMin": 100,
+      "companySizeEvidenceUrl": "https://www.zhipin.com/job_detail/7f7bc6524c7f57130nJ43Ny-GVFQ.html",
+      "adapter": "cloudview",
       "enabled": false,
-      "checkStatus": "reachable"
+      "checkStatus": "reachable",
+      "notes": "公司规模来自当前 Boss 公开岗位页。官网详情 URL 当前重复返回同一正文，修复前禁止启用。"
     },
     {
       "id": "baicizhan",
@@ -275,13 +284,24 @@
     {
       "id": "tencent",
       "company": "腾讯",
-      "careersUrl": "https://careers.tencent.com/search.html?keyword=%E8%BF%90%E8%90%A5&query=ci_8",
+      "careersUrl": "https://careers.tencent.com/search.html?keyword=%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86&query=ci_8",
       "focusAreas": ["游戏产品", "产品运营", "云与产业互联网"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "custom",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "companySizeEvidenceUrl": "https://static.www.tencent.com/uploads/2026/04/09/f6dbd30b3d8ca9c65f76f3d73b7da739.pdf",
+      "adapter": "tencent",
+      "tencent": {
+        "cityIds": {
+          "成都": 8
+        },
+        "recruitmentTypeId": 1,
+        "employmentType": "full-time",
+        "pageSize": 20,
+        "maximumPagesPerKeyword": 5
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模来自腾讯 2025 年 ESG 报告；社会招聘岗位通过腾讯公开招聘接口按城市和目标岗位名分页采集。"
     },
     {
       "id": "bytedance",
@@ -321,11 +341,22 @@
       "company": "美团",
       "careersUrl": "https://zhaopin.meituan.com/web/social",
       "focusAreas": ["到店", "外卖", "商业化", "AI产品", "运营产品"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "custom",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "companySizeEvidenceUrl": "https://media-meituan.todayir.com/202505020944401774654665_en.pdf",
+      "adapter": "meituan",
+      "meituan": {
+        "cityCodes": {
+          "成都": "001023001"
+        },
+        "jobTypeCode": "3",
+        "employmentType": "full-time",
+        "pageSize": 100,
+        "maximumPagesPerKeyword": 5
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "已验证美团官方社招接口；官网未披露薪资时标记为未披露。"
     },
     {
       "id": "baidu",
@@ -464,11 +495,18 @@
       "company": "科大讯飞",
       "careersUrl": "https://iflytek.zhiye.com/",
       "focusAreas": ["AI产品", "教育", "医疗", "政企解决方案"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "companySizeEvidenceUrl": "https://www.zhipin.com/job_detail/18f4b5a2dddb63450nN709y-FltQ.html",
       "adapter": "zhiye",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "zhiye": {
+        "category": "1",
+        "pageSize": 100,
+        "maximumPagesPerKeyword": 3
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模来自当前 Boss 公开岗位页；社招岗位通过智易公开接口按目标岗位名分页采集。"
     },
     {
       "id": "beisen",

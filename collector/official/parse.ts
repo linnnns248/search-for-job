@@ -79,7 +79,7 @@ function stableKey(source: OfficialSiteSource, url: string, title: string, city:
   return createHash("sha256").update(key).digest("hex").slice(0, 20);
 }
 
-function toCandidate(
+export function buildOfficialCandidate(
   source: OfficialSiteSource,
   fields: {
     title: string;
@@ -132,7 +132,7 @@ export function parseJsonLdJobs(html: string, source: OfficialSiteSource): Offic
     const url = stringValue(posting.url)
       || stringValue(posting.sameAs)
       || source.careersUrl;
-    const candidate = toCandidate(source, {
+    const candidate = buildOfficialCandidate(source, {
       title: plainText(posting.title),
       description: plainText(posting.description),
       salary: salaryText(posting.baseSalary),
@@ -176,7 +176,7 @@ export function parseSelectorJobs(
       ? link.attr(selectors.urlAttribute)
       : link.attr("href");
     if (!href) return null;
-    return toCandidate(source, {
+    return buildOfficialCandidate(source, {
       title: textFrom(card, selectors.title),
       description: textFrom(card, selectors.description),
       salary: textFrom(card, selectors.salary),

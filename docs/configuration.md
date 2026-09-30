@@ -31,7 +31,11 @@ Boss 数据源参数位于 `config/collector.json`：
 
 公司官网清单位于 `config/official-sites.json`。每条来源包含稳定 ID、公司名称、招聘页链接、关注方向、公司规模、适配器类型、检查状态和是否启用。
 
-新来源先以 `enabled: false` 加入。只有确认公司规模、完成适配器并通过岗位字段验证后才允许启用。当前适配器类型包括 `json-ld`、`selector`、`moka`、`zhiye`、`custom` 和 `pending`。
+新来源先以 `enabled: false` 加入。只有确认公司规模、完成适配器并通过岗位字段验证后才允许启用。当前适配器类型包括 `json-ld`、`selector`、`cloudview`、`moka`、`zhiye`、`tencent`、`meituan`、`custom` 和 `pending`。
+
+Zhiye 来源可在单站点 `zhiye` 配置中调整招聘类型（社招/校招）、每页数量和每关键词最大页数。采集关键词仍统一读取公开配置的 `titleIncludeKeywords`，避免站点配置复制业务条件。
+
+腾讯和美团来源分别在 `tencent` / `meituan` 配置中维护城市编码、招聘类型、求职类型和分页上限；城市、岗位名称、学历、薪资和公司规模的发布条件仍统一由公开搜索配置控制。
 
 `publicationPolicy` 控制官网缺失字段的发布口径。当前允许薪资未披露，但不允许学历或求职类型未披露。完整清单和启用门槛见 `docs/official-sites.md`。
 

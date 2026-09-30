@@ -15,11 +15,38 @@ import { loadCollectorConfig, loadSearchConfig, projectRoot, publicJobsPath } fr
 import { matchesConfiguredCriteria } from "./criteria";
 import { mergeCollectedJobs } from "./merge";
 import { normalizeBossJob } from "./normalize";
+import { collectOfficialSources } from "./official/runner";
 import type { BossJobCandidate } from "./types";
 
 const port = 43127;
 const tokenPath = path.join(projectRoot, ".collector", "extension-token");
+const officialStatusPath = path.join(projectRoot, ".collector", "official-status.json");
 const detailMetadata = new Map<string, { companySize: string; companySizeMin: number | null }>();
+let officialCollectionTask: Promise<void> | null = null;
+
+async function writeOfficialStatus(value: Record<string, unknown>): Promise<void> {
+  await mkdir(path.dirname(officialStatusPath), { recursive: true });
+  await writeFile(officialStatusPath, `${JSON.stringify({ ...value, updatedAt: new Date().toISOString() }, null, 2)}\n`, "utf8");
+}
+
+function startOfficialCollection(): boolean {
+  if (officialCollectionTask) return false;
+  officialCollectionTask = (async () => {
+    await writeOfficialStatus({ state: "running", message: "公司官网采集正在运行" });
+    try {
+      const result = await collectOfficialSources();
+      await writeOfficialStatus({ state: "success", message: `公司官网采集完成：${result.accepted} 个岗位`, result });
+      console.log(`公司官网采集完成：${result.accepted} 个岗位，当前共 ${result.total} 个`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      await writeOfficialStatus({ state: "error", message });
+      console.error(`公司官网采集失败：${message}`);
+    } finally {
+      officialCollectionTask = null;
+    }
+  })();
+  return true;
+}
 
 function criteriaSignature(searchConfig: Awaited<ReturnType<typeof loadSearchConfig>>): string {
   return createHash("sha256").update(JSON.stringify({
@@ -144,6 +171,22 @@ async function startServer(): Promise<void> {
       const date = requestUrl.searchParams.get("date") ?? "";
       const shouldRun = !searchConfig.schedule.statutoryWorkdaysOnly || await isChineseStatutoryWorkday(date);
       sendJson(response, 200, { shouldRun, date });
+      return;
+    }
+    if (request.method === "POST" && requestUrl.pathname === "/collect-official") {
+      const started = startOfficialCollection();
+      sendJson(response, 202, {
+        started,
+        message: started ? "公司官网采集已启动" : "公司官网采集已在运行",
+      });
+      return;
+    }
+    if (request.method === "GET" && requestUrl.pathname === "/official-status") {
+      try {
+        sendJson(response, 200, JSON.parse(await readFile(officialStatusPath, "utf8")));
+      } catch {
+        sendJson(response, 200, { state: "idle", message: "公司官网尚未执行采集" });
+      }
       return;
     }
     if (request.method === "POST" && requestUrl.pathname === "/parse-search") {

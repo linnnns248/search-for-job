@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "collector:serve": "tsx collector/server.ts",
+    "collector:official": "tsx collector/official/cli.ts",
     "collector:install": "node scripts/install-macos-collector.mjs",
     "collector:uninstall": "node scripts/install-macos-collector.mjs --uninstall",
     "build:extension": "node scripts/build-extension.mjs"
