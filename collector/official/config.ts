@@ -4,7 +4,7 @@ import { projectRoot } from "../config";
 import type { OfficialSiteSource, OfficialSitesConfig } from "./types";
 
 export const officialSitesPath = path.join(projectRoot, "config", "official-sites.json");
-const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "custom", "pending"]);
+const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "custom", "pending"]);
 const checkStatuses = new Set(["reachable", "needs-browser", "unavailable", "pending"]);
 
 function assertPublicHttpsUrl(value: string, label: string): void {
@@ -138,6 +138,21 @@ function validateSource(source: OfficialSiteSource, ids: Set<string>): void {
         throw new Error(`官网来源 ${source.id} 的百度关键词页数必须在 1 到 50 之间`);
       }
     }
+    if (source.adapter === "huawei") {
+      if (!source.huawei) throw new Error(`已启用官网来源 ${source.id} 缺少华为适配器配置`);
+      if (!["full-time", "part-time"].includes(source.huawei.employmentType)) {
+        throw new Error(`官网来源 ${source.id} 的华为求职类型无效`);
+      }
+      if (!Number.isInteger(source.huawei.pageSize)
+        || source.huawei.pageSize < 1 || source.huawei.pageSize > 20) {
+        throw new Error(`官网来源 ${source.id} 的华为分页大小必须在 1 到 20 之间`);
+      }
+      if (!Number.isInteger(source.huawei.maximumPagesPerKeyword)
+        || source.huawei.maximumPagesPerKeyword < 1
+        || source.huawei.maximumPagesPerKeyword > 50) {
+        throw new Error(`官网来源 ${source.id} 的华为关键词页数必须在 1 到 50 之间`);
+      }
+    }
   }
 }
 
@@ -187,6 +202,15 @@ export function validateOfficialSitesConfig(value: unknown): OfficialSitesConfig
     if (typeof config.onboardingPolicy.deferredReason !== "string"
       || !config.onboardingPolicy.deferredReason.trim()) {
       throw new Error("官网延后接入策略缺少原因");
+    }
+    if (config.onboardingPolicy.processingStrategy
+      && config.onboardingPolicy.processingStrategy !== "company-size-descending") {
+      throw new Error("官网接入处理顺序无效");
+    }
+    if (config.onboardingPolicy.processingStrategy
+      && (typeof config.onboardingPolicy.processingReason !== "string"
+        || !config.onboardingPolicy.processingReason.trim())) {
+      throw new Error("官网接入处理顺序缺少原因");
     }
   }
   return config as OfficialSitesConfig;

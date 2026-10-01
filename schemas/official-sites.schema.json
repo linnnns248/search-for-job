@@ -15,7 +15,9 @@
           "uniqueItems": true,
           "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" }
         },
-        "deferredReason": { "type": "string", "minLength": 1 }
+        "deferredReason": { "type": "string", "minLength": 1 },
+        "processingStrategy": { "const": "company-size-descending" },
+        "processingReason": { "type": "string", "minLength": 1 }
       },
       "additionalProperties": false
     },
@@ -64,7 +66,7 @@
           "companySize": { "type": ["string", "null"] },
           "companySizeMin": { "type": ["integer", "null"], "minimum": 0 },
           "companySizeEvidenceUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
-          "adapter": { "enum": ["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "custom", "pending"] },
+          "adapter": { "enum": ["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "custom", "pending"] },
           "selectors": {
             "type": "object",
             "required": ["card", "title", "url"],
@@ -151,6 +153,16 @@
               "recruitType": { "const": "SOCIAL" },
               "employmentType": { "enum": ["full-time", "part-time"] },
               "pageSize": { "type": "integer", "minimum": 1, "maximum": 10 },
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
+            },
+            "additionalProperties": false
+          },
+          "huawei": {
+            "type": "object",
+            "required": ["employmentType", "pageSize", "maximumPagesPerKeyword"],
+            "properties": {
+              "employmentType": { "enum": ["full-time", "part-time"] },
+              "pageSize": { "type": "integer", "minimum": 1, "maximum": 20 },
               "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
             },
             "additionalProperties": false

@@ -1,6 +1,6 @@
 import type { EducationLevel, EmploymentType } from "../../src/types";
 
-export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "zhiye-classic" | "tencent" | "meituan" | "baidu" | "custom" | "pending";
+export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "zhiye-classic" | "tencent" | "meituan" | "baidu" | "huawei" | "custom" | "pending";
 export type OfficialSourceCheckStatus = "reachable" | "needs-browser" | "unavailable" | "pending";
 
 export interface SelectorAdapterConfig {
@@ -53,6 +53,12 @@ export interface BaiduAdapterConfig {
   maximumPagesPerKeyword: number;
 }
 
+export interface HuaweiAdapterConfig {
+  employmentType: EmploymentType;
+  pageSize: number;
+  maximumPagesPerKeyword: number;
+}
+
 export interface OfficialSiteSource {
   id: string;
   company: string;
@@ -68,6 +74,7 @@ export interface OfficialSiteSource {
   tencent?: TencentAdapterConfig;
   meituan?: MeituanAdapterConfig;
   baidu?: BaiduAdapterConfig;
+  huawei?: HuaweiAdapterConfig;
   enabled: boolean;
   checkStatus: OfficialSourceCheckStatus;
   notes?: string;
@@ -78,6 +85,8 @@ export interface OfficialSitesConfig {
   onboardingPolicy?: {
     deferredSourceIds: string[];
     deferredReason: string;
+    processingStrategy?: "company-size-descending";
+    processingReason?: string;
   };
   collection: {
     requestTimeoutMs: number;

@@ -11,6 +11,7 @@ import { collectZhiyeClassicJobs } from "./adapters/zhiye-classic";
 import { collectTencentJobs } from "./adapters/tencent";
 import { collectMeituanJobs } from "./adapters/meituan";
 import { collectBaiduJobs } from "./adapters/baidu";
+import { collectHuaweiJobs } from "./adapters/huawei";
 import { loadOfficialSitesConfig } from "./config";
 import { matchesOfficialCriteria } from "./criteria";
 import { fetchOfficialHtml } from "./fetch";
@@ -64,6 +65,9 @@ async function collectSource(
     const jobs = await collectBaiduJobs(source, config, searchConfig);
     if (jobs.length === 0) throw new Error("百度招聘官网没有识别到岗位，原数据保持不变");
     return jobs;
+  }
+  if (source.adapter === "huawei") {
+    return collectHuaweiJobs(source, config, searchConfig);
   }
   if (source.adapter === "zhiye") {
     const jobs = await collectZhiyeJobs(source, config, searchConfig);

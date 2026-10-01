@@ -107,4 +107,41 @@ describe("official site config", () => {
       }],
     })).toThrow(/不能同时启用/);
   });
+
+  it("accepts company-size ordering and a configured Huawei source", () => {
+    const config = validateOfficialSitesConfig({
+      schemaVersion: 1,
+      onboardingPolicy: {
+        deferredSourceIds: [],
+        deferredReason: "当前没有延后来源",
+        processingStrategy: "company-size-descending",
+        processingReason: "按公开可核验的员工规模从大到小处理",
+      },
+      collection,
+      publicationPolicy: {
+        allowUndisclosedSalary: true,
+        allowUndisclosedEducation: false,
+        allowUndisclosedEmploymentType: false,
+      },
+      sources: [{
+        id: "huawei",
+        company: "华为",
+        careersUrl: "https://career.huawei.com/reccampportal/portal5/social-recruitment.html",
+        focusAreas: ["产品规划"],
+        companySize: "213,000人",
+        companySizeMin: 213000,
+        adapter: "huawei",
+        huawei: {
+          employmentType: "full-time",
+          pageSize: 20,
+          maximumPagesPerKeyword: 5,
+        },
+        enabled: true,
+        checkStatus: "reachable",
+      }],
+    });
+
+    expect(config.onboardingPolicy?.processingStrategy).toBe("company-size-descending");
+    expect(config.sources[0].adapter).toBe("huawei");
+  });
 });

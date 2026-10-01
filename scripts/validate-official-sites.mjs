@@ -117,6 +117,20 @@ for (const source of config.sources) {
       throw new Error(`官网来源 ${source.id} 的百度关键词页数必须在 1 到 50 之间`);
     }
   }
+  if (source.enabled && source.adapter === "huawei") {
+    if (!source.huawei) throw new Error(`官网来源 ${source.id} 缺少华为适配器配置`);
+    if (!["full-time", "part-time"].includes(source.huawei.employmentType)) {
+      throw new Error(`官网来源 ${source.id} 的华为求职类型无效`);
+    }
+    if (!Number.isInteger(source.huawei.pageSize) || source.huawei.pageSize < 1 || source.huawei.pageSize > 20) {
+      throw new Error(`官网来源 ${source.id} 的华为分页大小必须在 1 到 20 之间`);
+    }
+    if (!Number.isInteger(source.huawei.maximumPagesPerKeyword)
+      || source.huawei.maximumPagesPerKeyword < 1
+      || source.huawei.maximumPagesPerKeyword > 50) {
+      throw new Error(`官网来源 ${source.id} 的华为关键词页数必须在 1 到 50 之间`);
+    }
+  }
   adapters[source.adapter] = (adapters[source.adapter] ?? 0) + 1;
 }
 
@@ -130,6 +144,15 @@ if (config.onboardingPolicy
     || !config.onboardingPolicy.deferredReason.trim())) {
   throw new Error("官网延后接入策略缺少原因");
 }
+if (config.onboardingPolicy?.processingStrategy
+  && config.onboardingPolicy.processingStrategy !== "company-size-descending") {
+  throw new Error("官网接入处理顺序无效");
+}
+if (config.onboardingPolicy?.processingStrategy
+  && (typeof config.onboardingPolicy.processingReason !== "string"
+    || !config.onboardingPolicy.processingReason.trim())) {
+  throw new Error("官网接入处理顺序缺少原因");
+}
 for (const id of deferredIds) {
   const source = config.sources.find((candidate) => candidate.id === id);
   if (!source) throw new Error(`官网延后接入来源不存在：${id}`);
@@ -137,4 +160,7 @@ for (const id of deferredIds) {
 }
 console.log(`官网来源配置通过：${config.sources.length} 个入口，${enabled} 个已启用`);
 console.log(`延后接入：${deferredIds.length} 个纯游戏类公司`);
+if (config.onboardingPolicy?.processingStrategy) {
+  console.log(`接入顺序：${config.onboardingPolicy.processingStrategy}`);
+}
 console.log(`适配器分布：${JSON.stringify(adapters)}`);
