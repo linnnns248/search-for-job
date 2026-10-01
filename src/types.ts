@@ -57,6 +57,20 @@ export interface SearchConfig {
   };
 }
 
+export interface OfficialCompany {
+  id: string;
+  company: string;
+  companySize: string;
+  companySizeMin: number | null;
+  careersUrl: string;
+  enabled: boolean;
+}
+
+export interface OfficialCompanyCatalog {
+  schemaVersion: 1;
+  companies: OfficialCompany[];
+}
+
 export interface Filters {
   query: string;
   city: string;

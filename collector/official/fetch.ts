@@ -39,6 +39,31 @@ interface OfficialRequestOptions {
   contentType?: string;
   body?: string;
   referer?: string;
+  publicHeaders?: Record<string, string>;
+}
+
+const forbiddenPublicHeaders = new Set([
+  "authorization",
+  "cookie",
+  "host",
+  "proxy-authorization",
+  "referer",
+  "user-agent",
+  "content-length",
+]);
+
+function validatePublicHeaders(headers: Record<string, string> | undefined): Record<string, string> {
+  if (!headers) return {};
+  const validated: Record<string, string> = {};
+  for (const [name, value] of Object.entries(headers)) {
+    const normalizedName = name.trim().toLocaleLowerCase();
+    if (!/^[a-z0-9-]+$/.test(normalizedName) || forbiddenPublicHeaders.has(normalizedName)) {
+      throw new Error(`官网请求头不允许使用：${name}`);
+    }
+    if (!value.trim() || /[\r\n]/.test(value)) throw new Error(`官网请求头 ${name} 的值无效`);
+    validated[name] = value;
+  }
+  return validated;
 }
 
 async function fetchOfficialBody(
@@ -52,6 +77,7 @@ async function fetchOfficialBody(
   const referer = options.referer
     ? assertAllowedUrl(options.referer, hosts).toString()
     : undefined;
+  const publicHeaders = validatePublicHeaders(options.publicHeaders);
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), config.requestTimeoutMs);
   try {
@@ -62,6 +88,7 @@ async function fetchOfficialBody(
         redirect: "manual",
         signal: controller.signal,
         headers: {
+          ...publicHeaders,
           Accept: options.accept,
           ...(options.contentType ? { "Content-Type": options.contentType } : {}),
           ...(referer ? { Referer: referer } : {}),
@@ -105,7 +132,12 @@ export async function fetchOfficialJson<T>(
   value: string,
   allowedHosts: string[],
   config: OfficialSitesConfig["collection"],
-  request: { method?: "GET" | "POST"; body?: unknown; referer: string },
+  request: {
+    method?: "GET" | "POST";
+    body?: unknown;
+    referer: string;
+    publicHeaders?: Record<string, string>;
+  },
 ): Promise<T> {
   const method = request.method ?? (request.body === undefined ? "GET" : "POST");
   const response = await fetchOfficialBody(value, allowedHosts, config, {
@@ -114,6 +146,7 @@ export async function fetchOfficialJson<T>(
     contentType: method === "POST" ? "application/json" : undefined,
     body: request.body === undefined ? undefined : JSON.stringify(request.body),
     referer: request.referer,
+    publicHeaders: request.publicHeaders,
   });
   try {
     return JSON.parse(response.body) as T;

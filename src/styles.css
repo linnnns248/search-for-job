@@ -206,6 +206,74 @@ a { color: inherit; }
   margin: 70px 0 48px;
 }
 
+.official-empty-section {
+  margin: 74px 0 64px;
+  padding-top: 48px;
+  border-top: 1px solid var(--line);
+}
+
+.official-empty-heading { margin-bottom: 14px; }
+
+.company-count {
+  color: var(--green);
+  font-family: Georgia, serif;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.official-empty-description {
+  max-width: 760px;
+  margin: 0 0 26px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.official-company-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.official-company-card {
+  min-width: 0;
+  min-height: 112px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 253, 248, 0.78);
+}
+
+.official-company-card > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.official-company-card strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 15px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.official-company-card span { color: var(--muted); font-size: 12px; }
+.official-company-card a {
+  flex: 0 0 auto;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+}
+.official-company-card a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.official-company-card a span { color: inherit; }
+
 .section-heading {
   display: flex;
   align-items: flex-end;
@@ -425,6 +493,7 @@ footer {
   .search-field { grid-column: span 2; }
   .job-row { grid-template-columns: 1fr 1.4fr 0.7fr 0.7fr 56px; }
   .job-row > :nth-child(5), .job-table-header > :nth-child(5) { display: none; }
+  .official-company-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 760px) {
@@ -443,6 +512,7 @@ footer {
   .stats-grid article:nth-child(n+3) { border-bottom: 0; }
   .stats-grid strong { font-size: 34px; }
   .workspace { margin-top: 48px; }
+  .official-empty-section { margin-top: 54px; padding-top: 38px; }
   .section-heading { align-items: flex-start; flex-direction: column; }
   .download-actions { width: 100%; }
   .download-actions button { flex: 1; font-size: 12px; }
@@ -477,4 +547,5 @@ footer {
   .filters { grid-template-columns: 1fr; }
   .search-field { grid-column: auto; }
   .download-actions { flex-direction: column; }
+  .official-company-grid { grid-template-columns: 1fr; }
 }

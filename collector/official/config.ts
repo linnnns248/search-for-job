@@ -4,7 +4,7 @@ import { projectRoot } from "../config";
 import type { OfficialSiteSource, OfficialSitesConfig } from "./types";
 
 export const officialSitesPath = path.join(projectRoot, "config", "official-sites.json");
-const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "didi", "oppo", "custom", "pending"]);
+const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "didi", "oppo", "tongcheng", "custom", "pending"]);
 const checkStatuses = new Set(["reachable", "needs-browser", "unavailable", "pending"]);
 
 function assertPublicHttpsUrl(value: string, label: string): void {
@@ -192,6 +192,32 @@ function validateSource(source: OfficialSiteSource, ids: Set<string>): void {
         || source.oppo.maximumPagesPerCity < 1
         || source.oppo.maximumPagesPerCity > 50) {
         throw new Error(`官网来源 ${source.id} 的 OPPO 城市页数必须在 1 到 50 之间`);
+      }
+    }
+    if (source.adapter === "tongcheng") {
+      if (!source.tongcheng) throw new Error(`已启用官网来源 ${source.id} 缺少同程旅行适配器配置`);
+      if (!source.tongcheng.companyId.trim()) {
+        throw new Error(`官网来源 ${source.id} 的同程旅行公司 ID 无效`);
+      }
+      if (!Object.keys(source.tongcheng.cityIds).length
+        || Object.values(source.tongcheng.cityIds).some((value) => !value.trim())) {
+        throw new Error(`官网来源 ${source.id} 的同程旅行城市编码无效`);
+      }
+      if (source.tongcheng.queryType !== 4
+        || source.tongcheng.regularEmploymentTypeCode !== "REGULAR") {
+        throw new Error(`官网来源 ${source.id} 的同程旅行招聘类型无效`);
+      }
+      if (!['full-time', 'part-time'].includes(source.tongcheng.employmentType)) {
+        throw new Error(`官网来源 ${source.id} 的同程旅行求职类型无效`);
+      }
+      if (!Number.isInteger(source.tongcheng.pageSize)
+        || source.tongcheng.pageSize < 1 || source.tongcheng.pageSize > 100) {
+        throw new Error(`官网来源 ${source.id} 的同程旅行分页大小必须在 1 到 100 之间`);
+      }
+      if (!Number.isInteger(source.tongcheng.maximumPagesPerCity)
+        || source.tongcheng.maximumPagesPerCity < 1
+        || source.tongcheng.maximumPagesPerCity > 50) {
+        throw new Error(`官网来源 ${source.id} 的同程旅行城市页数必须在 1 到 50 之间`);
       }
     }
   }

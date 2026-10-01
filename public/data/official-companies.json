@@ -1,0 +1,293 @@
+{
+  "schemaVersion": 1,
+  "companies": [
+    {
+      "id": "jd",
+      "company": "京东集团",
+      "companySize": "776,682人",
+      "companySizeMin": 776682,
+      "careersUrl": "https://zhaopin.jd.com/web/job/job_info_list/3",
+      "enabled": false
+    },
+    {
+      "id": "cmcc",
+      "company": "中国移动",
+      "companySize": "450,000人",
+      "companySizeMin": 450000,
+      "careersUrl": "https://job.10086.cn/personal/job/?key=%E6%88%90%E9%83%BD",
+      "enabled": false
+    },
+    {
+      "id": "huawei",
+      "company": "华为",
+      "companySize": "213,000人",
+      "companySizeMin": 213000,
+      "careersUrl": "https://career.huawei.com/reccampportal/portal5/social-recruitment.html",
+      "enabled": true
+    },
+    {
+      "id": "bytedance",
+      "company": "字节跳动",
+      "companySize": "150,000人以上",
+      "companySizeMin": 150000,
+      "careersUrl": "https://jobs.bytedance.com/experienced/",
+      "enabled": false
+    },
+    {
+      "id": "alibaba",
+      "company": "阿里巴巴集团",
+      "companySize": "131,462人",
+      "companySizeMin": 131462,
+      "careersUrl": "https://talent.alibaba.com/",
+      "enabled": false
+    },
+    {
+      "id": "ctrip",
+      "company": "携程集团",
+      "companySize": "43,574人",
+      "companySizeMin": 43574,
+      "careersUrl": "https://careers.ctrip.com/",
+      "enabled": false
+    },
+    {
+      "id": "oppo",
+      "company": "OPPO",
+      "companySize": "40,000人以上",
+      "companySizeMin": 40000,
+      "careersUrl": "https://career.oppo.com/official/oppo/recruitment/post?recruitType=SOCIAL-RECRUITMENT",
+      "enabled": true
+    },
+    {
+      "id": "kuaishou",
+      "company": "快手",
+      "companySize": "24,202人",
+      "companySizeMin": 24202,
+      "careersUrl": "https://zhaopin.kuaishou.cn/",
+      "enabled": false
+    },
+    {
+      "id": "didi",
+      "company": "滴滴",
+      "companySize": "22,335人",
+      "companySizeMin": 22335,
+      "careersUrl": "https://talent.didiglobal.com/social/list/1",
+      "enabled": true
+    },
+    {
+      "id": "tongcheng",
+      "company": "同程旅行",
+      "companySize": "11,249人",
+      "companySizeMin": 11249,
+      "careersUrl": "https://mhr.ly.com/recruit/portal/#/socialJob",
+      "enabled": true
+    },
+    {
+      "id": "baidu",
+      "company": "百度",
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "careersUrl": "https://talent.baidu.com/jobs/social-list",
+      "enabled": true
+    },
+    {
+      "id": "iflytek",
+      "company": "科大讯飞",
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "careersUrl": "https://iflytek.zhiye.com/",
+      "enabled": true
+    },
+    {
+      "id": "meituan",
+      "company": "美团",
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "careersUrl": "https://zhaopin.meituan.com/web/social",
+      "enabled": true
+    },
+    {
+      "id": "tencent",
+      "company": "腾讯",
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "careersUrl": "https://careers.tencent.com/search.html?keyword=%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86&query=ci_8",
+      "enabled": true
+    },
+    {
+      "id": "fulltruck",
+      "company": "满帮集团",
+      "companySize": "8,251人",
+      "companySizeMin": 8251,
+      "careersUrl": "https://jobs.fulltruckalliance.com/",
+      "enabled": false
+    },
+    {
+      "id": "360",
+      "company": "360集团",
+      "companySize": "3,800人以上",
+      "companySizeMin": 3800,
+      "careersUrl": "https://hr.360.cn/hr/list",
+      "enabled": false
+    },
+    {
+      "id": "beisen",
+      "company": "北森",
+      "companySize": "1000人以上",
+      "companySizeMin": 1000,
+      "careersUrl": "https://beisen.zhiye.com/",
+      "enabled": true
+    },
+    {
+      "id": "xiaoduo",
+      "company": "晓多科技",
+      "companySize": "400余人",
+      "companySizeMin": 400,
+      "careersUrl": "https://xiaoduoai.zhiye.com/Social",
+      "enabled": true
+    },
+    {
+      "id": "vantron",
+      "company": "万创科技 Vantron",
+      "companySize": "280人",
+      "companySizeMin": 280,
+      "careersUrl": "https://www.vantrontech.com.cn/us/join",
+      "enabled": false
+    },
+    {
+      "id": "cloudview",
+      "company": "云览科技",
+      "companySize": "100-499人",
+      "companySizeMin": 100,
+      "careersUrl": "https://cloudview-inc.com/join/jobs",
+      "enabled": false
+    },
+    {
+      "id": "baicizhan",
+      "company": "百词斩",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://join.baicizhan.com/",
+      "enabled": false
+    },
+    {
+      "id": "dewu",
+      "company": "得物App",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://careers.dewu.com/",
+      "enabled": false
+    },
+    {
+      "id": "huolala",
+      "company": "货拉拉",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://join.huolala.cn/social",
+      "enabled": false
+    },
+    {
+      "id": "xgimi",
+      "company": "极米科技",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://campus.xgimi.com/campus-recruitment/xgimi/5463/",
+      "enabled": false
+    },
+    {
+      "id": "kingdee",
+      "company": "金蝶",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://www.kingdee.com/job/social",
+      "enabled": false
+    },
+    {
+      "id": "gislife",
+      "company": "空间座标 GISLife",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://www.gislife.com.cn/job",
+      "enabled": false
+    },
+    {
+      "id": "pzeda",
+      "company": "派兹互连 PZEDA",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://www.pzeda.com/about/joinUs",
+      "enabled": false
+    },
+    {
+      "id": "qnzs",
+      "company": "青牛智胜",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://www.qnzsai.com/join/",
+      "enabled": false
+    },
+    {
+      "id": "sangfor",
+      "company": "深信服",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://hr.sangfor.com/",
+      "enabled": false
+    },
+    {
+      "id": "zhunda",
+      "company": "四川准达",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://www.zhunda.com/recruit/",
+      "enabled": false
+    },
+    {
+      "id": "xinchao",
+      "company": "新潮传媒",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://app-tc.mokahr.com/campus-recruitment/xinchao/16002",
+      "enabled": false
+    },
+    {
+      "id": "xwbank",
+      "company": "新网银行",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://app.mokahr.com/campus-recruitment/xwbank/4246?locale=zh-CN#/navigation",
+      "enabled": false
+    },
+    {
+      "id": "cosmic-dawn",
+      "company": "宇宙黎明",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://www.cosmicdawnai.com/jobs.html",
+      "enabled": false
+    },
+    {
+      "id": "zhipu",
+      "company": "智谱AI",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://www.zhipuai.cn/zh/joinus",
+      "enabled": false
+    },
+    {
+      "id": "camera360",
+      "company": "Camera360",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://hr.camera360.com/recruitment.html?channel=social",
+      "enabled": false
+    },
+    {
+      "id": "naver-china",
+      "company": "NAVER China",
+      "companySize": "规模待核验",
+      "companySizeMin": null,
+      "careersUrl": "https://www.navercorp.com.cn/",
+      "enabled": false
+    }
+  ]
+}

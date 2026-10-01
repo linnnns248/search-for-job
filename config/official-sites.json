@@ -496,11 +496,13 @@
       "company": "360集团",
       "careersUrl": "https://hr.360.cn/hr/list",
       "focusAreas": ["安全产品", "企业服务", "AI", "产品运营"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "3,800人以上",
+      "companySizeMin": 3800,
+      "companySizeEvidenceUrl": "https://www.360.cn/about/",
       "adapter": "custom",
       "enabled": false,
-      "checkStatus": "needs-browser"
+      "checkStatus": "reachable",
+      "notes": "360 官网披露安全人才 3,800 余人，可确认达到规模门槛。官方社招公开接口当前返回 25 个岗位且没有成都岗位；详情未披露全职/兼职属性，暂不启用。"
     },
     {
       "id": "dewu",
@@ -529,24 +531,39 @@
     {
       "id": "tongcheng",
       "company": "同程旅行",
-      "careersUrl": "https://join.ly.com/",
+      "careersUrl": "https://mhr.ly.com/recruit/portal/#/socialJob",
       "focusAreas": ["旅行产品", "交通住宿", "用户增长"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "pending",
-      "enabled": false,
-      "checkStatus": "unavailable"
+      "companySize": "11,249人",
+      "companySizeMin": 11249,
+      "companySizeEvidenceUrl": "https://www.hkexnews.hk/listedco/listconews/sehk/2026/0428/2026042800528.pdf",
+      "adapter": "tongcheng",
+      "tongcheng": {
+        "companyId": "0583d",
+        "cityIds": {
+          "成都": "324"
+        },
+        "queryType": 4,
+        "regularEmploymentTypeCode": "REGULAR",
+        "employmentType": "full-time",
+        "pageSize": 50,
+        "maximumPagesPerCity": 5
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模来自同程旅行 2025 年年报。使用无需登录或签名的公开社招接口按成都分页；仅把正式岗位映射为全职，并继续执行统一条件过滤。"
     },
     {
       "id": "fulltruck",
       "company": "满帮集团",
       "careersUrl": "https://jobs.fulltruckalliance.com/",
       "focusAreas": ["物流平台", "交易", "司机产品", "货主产品"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "8,251人",
+      "companySizeMin": 8251,
+      "companySizeEvidenceUrl": "https://ir.fulltruckalliance.com/Investor-FAQ",
       "adapter": "pending",
       "enabled": false,
-      "checkStatus": "unavailable"
+      "checkStatus": "unavailable",
+      "notes": "公司规模来自满帮集团投资者关系 FAQ（截至 2025-12-31）。当前官方招聘入口持续重定向并超过安全跳转上限，暂时无法读取岗位列表。"
     },
     {
       "id": "huolala",

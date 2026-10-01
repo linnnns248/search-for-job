@@ -14,6 +14,7 @@ import { collectBaiduJobs } from "./adapters/baidu";
 import { collectHuaweiJobs } from "./adapters/huawei";
 import { collectDidiJobs } from "./adapters/didi";
 import { collectOppoJobs } from "./adapters/oppo";
+import { collectTongchengJobs } from "./adapters/tongcheng";
 import { loadOfficialSitesConfig } from "./config";
 import { matchesOfficialCriteria } from "./criteria";
 import { fetchOfficialHtml } from "./fetch";
@@ -76,6 +77,9 @@ async function collectSource(
   }
   if (source.adapter === "oppo") {
     return collectOppoJobs(source, config, searchConfig);
+  }
+  if (source.adapter === "tongcheng") {
+    return collectTongchengJobs(source, config, searchConfig);
   }
   if (source.adapter === "zhiye") {
     const jobs = await collectZhiyeJobs(source, config, searchConfig);

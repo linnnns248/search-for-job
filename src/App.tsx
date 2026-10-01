@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { downloadCsv, downloadXlsx } from "./export";
 import { filterJobs, formatDateTime, sortJobs, sourceLabel, STATUS_LABELS } from "./job-utils";
-import type { Filters, JobDataset, JobRecord, SearchConfig, SortKey } from "./types";
+import { getOfficialCompaniesWithoutJobs } from "./official-companies";
+import type { Filters, JobDataset, JobRecord, OfficialCompanyCatalog, SearchConfig, SortKey } from "./types";
 
 const PAGE_SIZE = 10;
 
@@ -16,6 +17,7 @@ const initialFilters: Filters = {
 function App() {
   const [dataset, setDataset] = useState<JobDataset | null>(null);
   const [config, setConfig] = useState<SearchConfig | null>(null);
+  const [officialCompanies, setOfficialCompanies] = useState<OfficialCompanyCatalog | null>(null);
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [sortKey, setSortKey] = useState<SortKey>("latest");
   const [page, setPage] = useState(1);
@@ -33,10 +35,15 @@ function App() {
         if (!response.ok) throw new Error("采集配置加载失败");
         return response.json() as Promise<SearchConfig>;
       }),
+      fetch(`${base}data/official-companies.json`).then((response) => {
+        if (!response.ok) throw new Error("官网公司目录加载失败");
+        return response.json() as Promise<OfficialCompanyCatalog>;
+      }),
     ])
-      .then(([jobData, searchConfig]) => {
+      .then(([jobData, searchConfig, companyCatalog]) => {
         setDataset(jobData);
         setConfig(searchConfig);
+        setOfficialCompanies(companyCatalog);
       })
       .catch((reason: unknown) => {
         setError(reason instanceof Error ? reason.message : "页面加载失败");
@@ -63,6 +70,10 @@ function App() {
       companyCount: new Set(jobs.map((job) => job.company)).size,
     };
   }, [dataset]);
+  const companiesWithoutOfficialJobs = useMemo(() => {
+    if (!dataset || !officialCompanies) return [];
+    return getOfficialCompaniesWithoutJobs(officialCompanies, dataset);
+  }, [dataset, officialCompanies]);
 
   if (error) {
     return (
@@ -75,7 +86,7 @@ function App() {
     );
   }
 
-  if (!dataset || !config) {
+  if (!dataset || !config || !officialCompanies) {
     return (
       <main className="state-page">
         <div className="loader" aria-label="正在加载" />
@@ -253,6 +264,33 @@ function App() {
               <button disabled={page === pageCount} onClick={() => setPage((value) => value + 1)}>下一页</button>
             </nav>
           )}
+        </section>
+
+        <section className="official-empty-section" aria-labelledby="official-empty-heading">
+          <div className="section-heading official-empty-heading">
+            <div>
+              <p className="eyebrow">OFFICIAL SITE WATCHLIST</p>
+              <h2 id="official-empty-heading">官网暂未收录岗位的公司</h2>
+            </div>
+            <strong className="company-count">{companiesWithoutOfficialJobs.length} 家</strong>
+          </div>
+          <p className="official-empty-description">
+            这里持续记录官网尚未产出可发布岗位的目标公司，可能是当前暂无符合条件的岗位、字段不足，
+            或官网采集受限。纯游戏公司按当前优先级暂不展示。
+          </p>
+          <div className="official-company-grid">
+            {companiesWithoutOfficialJobs.map((company) => (
+              <article className="official-company-card" key={company.id}>
+                <div>
+                  <strong>{company.company}</strong>
+                  <span>{company.companySize}</span>
+                </div>
+                <a href={company.careersUrl} target="_blank" rel="noreferrer">
+                  招聘官网 <span aria-hidden="true">↗</span>
+                </a>
+              </article>
+            ))}
+          </div>
         </section>
       </main>
 

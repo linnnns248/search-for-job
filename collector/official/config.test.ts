@@ -144,4 +144,38 @@ describe("official site config", () => {
     expect(config.onboardingPolicy?.processingStrategy).toBe("company-size-descending");
     expect(config.sources[0].adapter).toBe("huawei");
   });
+
+  it("accepts a configured Tongcheng public social source", () => {
+    const config = validateOfficialSitesConfig({
+      schemaVersion: 1,
+      collection,
+      publicationPolicy: {
+        allowUndisclosedSalary: true,
+        allowUndisclosedEducation: false,
+        allowUndisclosedEmploymentType: false,
+      },
+      sources: [{
+        id: "tongcheng",
+        company: "同程旅行",
+        careersUrl: "https://mhr.ly.com/recruit/portal/#/socialJob",
+        focusAreas: ["旅行产品"],
+        companySize: "11,249人",
+        companySizeMin: 11249,
+        adapter: "tongcheng",
+        tongcheng: {
+          companyId: "0583d",
+          cityIds: { "成都": "324" },
+          queryType: 4,
+          regularEmploymentTypeCode: "REGULAR",
+          employmentType: "full-time",
+          pageSize: 50,
+          maximumPagesPerCity: 5,
+        },
+        enabled: true,
+        checkStatus: "reachable",
+      }],
+    });
+
+    expect(config.sources[0].adapter).toBe("tongcheng");
+  });
 });

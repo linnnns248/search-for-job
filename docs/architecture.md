@@ -4,6 +4,7 @@
 
 ```text
 public/data/jobs.json
+public/data/official-companies.json
         ↓
 React + TypeScript 静态页面
         ↓
@@ -45,6 +46,7 @@ GitHub Pages
 - `.collector/`：仅本机存在的接收器令牌、构建产物和运行日志，永不提交。
 - `config/collector.json`：不敏感的数据源参数；城市、关键词和公司规模继续以公开配置为唯一业务配置源。
 - `config/official-sites.json`：公司官网入口、公司规模依据、适配器类型、检查状态和缺失字段发布策略；新来源默认关闭。
+- `public/data/official-companies.json`：由官网配置自动生成的公开公司目录；排除延后接入和低于规模门槛的公司，供页面自动识别尚无官网岗位的公司。
 - `collector/official/`：官网配置校验、统一候选协议、JSON-LD/选择器解析、官网过滤与标准化。
 
 扩展使用 Chrome Alarm 在法定工作日 23:00 运行；macOS LaunchAgent 保持本地接收器可用。长任务会拆成单页搜索/单个详情步骤，每步后把候选数据和进度写入 Chrome 本地存储，下一个 Alarm 继续执行，不依赖长时间存活的 Manifest V3 Service Worker。采集失败、返回空结果或遇到登录验证时，不覆盖现有公开数据。当前版本也不会仅凭单次“未发现”就将岗位标记下架。
