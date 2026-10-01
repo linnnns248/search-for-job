@@ -66,7 +66,7 @@
           "companySize": { "type": ["string", "null"] },
           "companySizeMin": { "type": ["integer", "null"], "minimum": 0 },
           "companySizeEvidenceUrl": { "type": "string", "format": "uri", "pattern": "^https://" },
-          "adapter": { "enum": ["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "didi", "oppo", "tongcheng", "custom", "pending"] },
+          "adapter": { "enum": ["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "didi", "oppo", "tongcheng", "kingdee", "sangfor", "camera360", "gislife", "custom", "pending"] },
           "selectors": {
             "type": "object",
             "required": ["card", "title", "url"],
@@ -90,7 +90,8 @@
             "properties": {
               "category": { "enum": ["1", "2"] },
               "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
-              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 },
+              "allowEmptyResults": { "type": "boolean" }
             },
             "additionalProperties": false
           },
@@ -213,6 +214,25 @@
               "employmentType": { "enum": ["full-time", "part-time"] },
               "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
               "maximumPagesPerCity": { "type": "integer", "minimum": 1, "maximum": 50 }
+            },
+            "additionalProperties": false
+          },
+          "kingdee": {
+            "type": "object",
+            "required": ["pageSize", "maximumPagesPerKeyword"],
+            "properties": {
+              "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
+            },
+            "additionalProperties": false
+          },
+          "sangfor": {
+            "type": "object",
+            "required": ["channelId", "pageSize", "maximumPagesPerKeyword"],
+            "properties": {
+              "channelId": { "type": "integer", "minimum": 1 },
+              "pageSize": { "type": "integer", "minimum": 1, "maximum": 100 },
+              "maximumPagesPerKeyword": { "type": "integer", "minimum": 1, "maximum": 50 }
             },
             "additionalProperties": false
           },

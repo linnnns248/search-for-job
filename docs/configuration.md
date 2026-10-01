@@ -35,7 +35,7 @@ Boss 数据源参数位于 `config/collector.json`：
 
 `onboardingPolicy.processingStrategy` 保存其余来源的处理顺序。当前为 `company-size-descending`：先使用公司官网、年报等公开依据确认员工规模，再从大到小接入；同一规模档优先处理无需登录、字段完整且能稳定低频读取的官网。
 
-新来源先以 `enabled: false` 加入。只有确认公司规模、完成适配器并通过岗位字段验证后才允许启用。当前适配器类型包括 `json-ld`、`selector`、`cloudview`、`moka`、`zhiye`、`tencent`、`meituan`、`baidu`、`huawei`、`didi`、`oppo`、`tongcheng`、`custom` 和 `pending`。
+新来源先以 `enabled: false` 加入。只有确认公司规模、完成适配器并通过岗位字段验证后才允许启用。当前适配器类型包括 `json-ld`、`selector`、`cloudview`、`moka`、`zhiye`、`zhiye-classic`、`tencent`、`meituan`、`baidu`、`huawei`、`didi`、`oppo`、`tongcheng`、`kingdee`、`sangfor`、`camera360`、`gislife`、`custom` 和 `pending`。
 
 Zhiye 来源可在单站点 `zhiye` 配置中调整招聘类型（社招/校招）、每页数量和每关键词最大页数。采集关键词仍统一读取公开配置的 `titleIncludeKeywords`，避免站点配置复制业务条件。
 

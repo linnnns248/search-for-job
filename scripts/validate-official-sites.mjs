@@ -195,6 +195,33 @@ for (const source of config.sources) {
       throw new Error(`官网来源 ${source.id} 的同程旅行城市页数必须在 1 到 50 之间`);
     }
   }
+  if (source.enabled && source.adapter === "kingdee") {
+    if (!source.kingdee) throw new Error(`官网来源 ${source.id} 缺少金蝶适配器配置`);
+    if (!Number.isInteger(source.kingdee.pageSize)
+      || source.kingdee.pageSize < 1 || source.kingdee.pageSize > 100) {
+      throw new Error(`官网来源 ${source.id} 的金蝶分页大小必须在 1 到 100 之间`);
+    }
+    if (!Number.isInteger(source.kingdee.maximumPagesPerKeyword)
+      || source.kingdee.maximumPagesPerKeyword < 1
+      || source.kingdee.maximumPagesPerKeyword > 50) {
+      throw new Error(`官网来源 ${source.id} 的金蝶关键词页数必须在 1 到 50 之间`);
+    }
+  }
+  if (source.enabled && source.adapter === "sangfor") {
+    if (!source.sangfor) throw new Error(`官网来源 ${source.id} 缺少深信服适配器配置`);
+    if (!Number.isInteger(source.sangfor.channelId) || source.sangfor.channelId < 1) {
+      throw new Error(`官网来源 ${source.id} 的深信服频道 ID 无效`);
+    }
+    if (!Number.isInteger(source.sangfor.pageSize)
+      || source.sangfor.pageSize < 1 || source.sangfor.pageSize > 100) {
+      throw new Error(`官网来源 ${source.id} 的深信服分页大小必须在 1 到 100 之间`);
+    }
+    if (!Number.isInteger(source.sangfor.maximumPagesPerKeyword)
+      || source.sangfor.maximumPagesPerKeyword < 1
+      || source.sangfor.maximumPagesPerKeyword > 50) {
+      throw new Error(`官网来源 ${source.id} 的深信服关键词页数必须在 1 到 50 之间`);
+    }
+  }
   adapters[source.adapter] = (adapters[source.adapter] ?? 0) + 1;
 }
 

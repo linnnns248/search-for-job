@@ -40,6 +40,7 @@ interface OfficialRequestOptions {
   body?: string;
   referer?: string;
   publicHeaders?: Record<string, string>;
+  authorizationBearer?: string;
 }
 
 const forbiddenPublicHeaders = new Set([
@@ -78,6 +79,11 @@ async function fetchOfficialBody(
     ? assertAllowedUrl(options.referer, hosts).toString()
     : undefined;
   const publicHeaders = validatePublicHeaders(options.publicHeaders);
+  if (options.authorizationBearer
+    && (!/^[A-Za-z0-9._~-]+$/.test(options.authorizationBearer)
+      || options.authorizationBearer.length > 8192)) {
+    throw new Error("官网短期访问令牌格式无效");
+  }
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), config.requestTimeoutMs);
   try {
@@ -92,6 +98,9 @@ async function fetchOfficialBody(
           Accept: options.accept,
           ...(options.contentType ? { "Content-Type": options.contentType } : {}),
           ...(referer ? { Referer: referer } : {}),
+          ...(options.authorizationBearer
+            ? { Authorization: `Bearer ${options.authorizationBearer}` }
+            : {}),
           "User-Agent": "search-for-job/0.3 (+local personal job tracker)",
         },
       });
@@ -147,6 +156,33 @@ export async function fetchOfficialJson<T>(
     body: request.body === undefined ? undefined : JSON.stringify(request.body),
     referer: request.referer,
     publicHeaders: request.publicHeaders,
+  });
+  try {
+    return JSON.parse(response.body) as T;
+  } catch {
+    throw new Error("官网接口没有返回有效 JSON");
+  }
+}
+
+export async function fetchOfficialBearerJson<T>(
+  value: string,
+  allowedHosts: string[],
+  config: OfficialSitesConfig["collection"],
+  request: {
+    method?: "GET" | "POST";
+    body?: unknown;
+    referer: string;
+    bearer: string;
+  },
+): Promise<T> {
+  const method = request.method ?? (request.body === undefined ? "GET" : "POST");
+  const response = await fetchOfficialBody(value, allowedHosts, config, {
+    method,
+    accept: "application/json",
+    contentType: method === "POST" ? "application/json" : undefined,
+    body: request.body === undefined ? undefined : JSON.stringify(request.body),
+    referer: request.referer,
+    authorizationBearer: request.bearer,
   });
   try {
     return JSON.parse(response.body) as T;

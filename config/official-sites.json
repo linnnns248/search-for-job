@@ -135,23 +135,26 @@
       "company": "百词斩",
       "careersUrl": "https://join.baicizhan.com/",
       "focusAreas": ["在线教育", "内容", "学习工具"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "500-999人",
+      "companySizeMin": 500,
+      "companySizeEvidenceUrl": "https://m.zhipin.com/companys/fe33016e8e19722133x-2Ns~.html",
       "adapter": "moka",
       "enabled": false,
-      "checkStatus": "reachable",
-      "notes": "官网职位入口跳转至 Moka。"
+      "checkStatus": "needs-browser",
+      "notes": "公司规模来自当前 Boss 公开公司页。官网会跳转到 Moka 社招入口，但普通 HTTP 客户端持续重定向；需浏览器采集支持后再启用。"
     },
     {
       "id": "camera360",
       "company": "Camera360",
       "careersUrl": "https://hr.camera360.com/recruitment.html?channel=social",
       "focusAreas": ["影像", "修图", "海外工具产品"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "custom",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "companySize": "150-499人",
+      "companySizeMin": 150,
+      "companySizeEvidenceUrl": "https://www.baijing.cn/people/3405",
+      "adapter": "camera360",
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模采用公开企业资料的 150-499 人区间。官网社招接口无需登录或签名；当前 4 个社招岗位中没有产品经理，后续每日自动复查。"
     },
     {
       "id": "tap4fun",
@@ -202,11 +205,13 @@
       "company": "空间座标 GISLife",
       "careersUrl": "https://www.gislife.com.cn/job",
       "focusAreas": ["GIS", "数字城市", "行业软件"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "pending",
-      "enabled": false,
-      "checkStatus": "unavailable"
+      "companySize": "150-500人",
+      "companySizeMin": 150,
+      "companySizeEvidenceUrl": "https://m.yingjiesheng.com/job-008-095-772.html",
+      "adapter": "gislife",
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模依据近期公开校招信息。官网当前有成都高级产品经理岗位，页面未披露薪资，按统一规则标记为未披露后收录。"
     },
     {
       "id": "qnzs",
@@ -225,11 +230,13 @@
       "company": "派兹互连 PZEDA",
       "careersUrl": "https://www.pzeda.com/about/joinUs",
       "focusAreas": ["AI", "工业软件", "芯片设计工具"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "100-499人",
+      "companySizeMin": 100,
+      "companySizeEvidenceUrl": "https://m.zhipin.com/companys/0bc46c5b9b65d55d03V80927EVA~.html",
       "adapter": "custom",
       "enabled": false,
-      "checkStatus": "needs-browser"
+      "checkStatus": "reachable",
+      "notes": "公司规模来自当前 Boss 公开公司页。官网招聘页当前服务端显示 No data，没有可采集职位；保留并定期复核。"
     },
     {
       "id": "cosmic-dawn",
@@ -240,51 +247,60 @@
       "companySizeMin": null,
       "adapter": "selector",
       "enabled": false,
-      "checkStatus": "reachable"
+      "checkStatus": "reachable",
+      "notes": "官网有 AI 产品经理岗位，但公司于 2026 年新成立且接近完成天使轮，当前没有可靠证据证明员工达到 100 人；规模核验前不纳入主岗位表。"
     },
     {
       "id": "xwbank",
       "company": "新网银行",
       "careersUrl": "https://app.mokahr.com/campus-recruitment/xwbank/4246?locale=zh-CN#/navigation",
       "focusAreas": ["互联网银行", "信贷", "金融科技"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "500-999人",
+      "companySizeMin": 500,
+      "companySizeEvidenceUrl": "https://m.zhipin.com/companys/8ab6769b7d1fd7b11nd42ty4GQ~~.html",
       "adapter": "moka",
       "enabled": false,
-      "checkStatus": "needs-browser"
+      "checkStatus": "needs-browser",
+      "notes": "公司规模来自当前 Boss 公开公司页。已知官网链接是 Moka 校招导航且社会招聘直链返回 404；需确认新的官方社招入口后再启用。"
     },
     {
       "id": "xinchao",
       "company": "新潮传媒",
       "careersUrl": "https://app-tc.mokahr.com/campus-recruitment/xinchao/16002",
       "focusAreas": ["数字广告", "商业化", "营销科技"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "1000-9999人",
+      "companySizeMin": 1000,
+      "companySizeEvidenceUrl": "https://m.zhipin.com/companys/293e8519402143341nB-2t6_.html",
       "adapter": "moka",
       "enabled": false,
-      "checkStatus": "needs-browser"
+      "checkStatus": "needs-browser",
+      "notes": "公司规模来自当前 Boss 公开公司页。官方 Moka 校招入口在普通 HTTP 客户端中持续重定向；在找到稳定社招入口前保留为浏览器复核来源。"
     },
     {
       "id": "naver-china",
       "company": "NAVER China",
       "careersUrl": "https://www.navercorp.com.cn/",
       "focusAreas": ["搜索", "内容", "AI", "国际化产品研发"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "pending",
+      "companySize": "500-999人",
+      "companySizeMin": 500,
+      "companySizeEvidenceUrl": "https://www.zhaopin.com/companydetail/CC132157089.htm",
+      "adapter": "custom",
       "enabled": false,
-      "checkStatus": "unavailable"
+      "checkStatus": "reachable",
+      "notes": "公司规模来自当前公开企业页。官网当前岗位位于延吉、大连等地，没有成都产品方向岗位；保留并定期复核。"
     },
     {
       "id": "zhunda",
       "company": "四川准达",
       "careersUrl": "https://www.zhunda.com/recruit/",
       "focusAreas": ["通信", "ICT", "数字化解决方案"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "selector",
+      "companySize": "1000-4999人",
+      "companySizeMin": 1000,
+      "companySizeEvidenceUrl": "https://www.jobui.com/company/14992648/",
+      "adapter": "custom",
       "enabled": false,
-      "checkStatus": "reachable"
+      "checkStatus": "needs-browser",
+      "notes": "公开企业资料显示 1000-4999 人。官网招聘落地页可访问，但具体社招页对普通采集客户端返回 Access Denied；需浏览器采集支持后再启用。"
     },
     {
       "id": "scairi",
@@ -304,12 +320,13 @@
       "company": "极米科技",
       "careersUrl": "https://campus.xgimi.com/campus-recruitment/xgimi/5463/",
       "focusAreas": ["智能硬件", "内容系统", "IoT产品"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "1,817人",
+      "companySizeMin": 1817,
+      "companySizeEvidenceUrl": "https://static.cninfo.com.cn/finalpage/2026-03-31/1225055991.PDF",
       "adapter": "moka",
       "enabled": false,
       "checkStatus": "needs-browser",
-      "notes": "用户提示该页面可能已经关停，需要人工复核。"
+      "notes": "公司规模来自极米科技 2025 年年报。当前官方链接是 Moka 校招页，社会招聘候选路径均返回 404；找到新的官方社招入口前保持关闭。"
     },
     {
       "id": "tencent",
@@ -509,11 +526,13 @@
       "company": "得物App",
       "careersUrl": "https://careers.dewu.com/",
       "focusAreas": ["电商", "社区", "交易", "增长产品"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "1000人以上",
+      "companySizeMin": 1000,
+      "companySizeEvidenceUrl": "https://tech.dewu.com/article?id=119",
       "adapter": "custom",
       "enabled": false,
-      "checkStatus": "unavailable"
+      "checkStatus": "needs-browser",
+      "notes": "得物官方技术文章披露四地研发团队超过 1000 人，可确认达到规模门槛。官方飞书招聘职位请求包含站点 CSRF 与客户端签名，本项目不复刻或绕过该机制，后续仅评估正常浏览器页面采集。"
     },
     {
       "id": "ctrip",
@@ -568,13 +587,21 @@
     {
       "id": "huolala",
       "company": "货拉拉",
-      "careersUrl": "https://join.huolala.cn/social",
+      "careersUrl": "https://huolala.zhiye.com/social/jobs",
       "focusAreas": ["物流产品", "用户产品", "策略", "运营"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "custom",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "companySize": "10000人以上",
+      "companySizeMin": 10000,
+      "companySizeEvidenceUrl": "https://www.lalamove.com/hubfs/Lalamove%20Sustainability%20Report%202023.pdf",
+      "adapter": "zhiye",
+      "zhiye": {
+        "category": "1",
+        "pageSize": 100,
+        "maximumPagesPerKeyword": 3,
+        "allowEmptyResults": true
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模来自货拉拉官方可持续发展报告（全球员工超过 10,000 人）。招聘入口已更新为当前北森社招站，并使用无需登录的公开接口按目标岗位关键词低频分页；当前未发现目标产品岗位，后续每日自动复查。"
     },
     {
       "id": "cmcc",
@@ -630,33 +657,48 @@
       "company": "金蝶",
       "careersUrl": "https://www.kingdee.com/job/social",
       "focusAreas": ["企业软件", "SaaS", "财务产品", "供应链产品"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "pending",
-      "enabled": false,
-      "checkStatus": "unavailable"
+      "companySize": "11,294人",
+      "companySizeMin": 11294,
+      "companySizeEvidenceUrl": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0423/2026042300338.pdf",
+      "adapter": "kingdee",
+      "kingdee": {
+        "pageSize": 100,
+        "maximumPagesPerKeyword": 3
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模来自金蝶国际 2025 年年报。使用金蝶官网无需登录或签名的社招接口按目标岗位关键词分页；当前没有成都产品岗位，后续每日自动复查。"
     },
     {
       "id": "sangfor",
       "company": "深信服",
       "careersUrl": "https://hr.sangfor.com/",
       "focusAreas": ["安全", "云计算", "企业服务", "解决方案产品"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "custom",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "companySize": "7,282人",
+      "companySizeMin": 7282,
+      "companySizeEvidenceUrl": "https://disc.static.szse.cn/disc/disk03/finalpage/2026-04-01/a5c2cce7-b68d-4f79-afb3-56ffebcb1dc4.PDF",
+      "adapter": "sangfor",
+      "sangfor": {
+        "channelId": 110,
+        "pageSize": 100,
+        "maximumPagesPerKeyword": 3
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模来自深信服 2025 年年报。采集端按官网正常匿名浏览流程获取一小时短期令牌，仅在内存中使用，然后通过公开社招接口低频分页；当前产品岗位均不在成都，后续每日自动复查。"
     },
     {
       "id": "zhipu",
       "company": "智谱AI",
       "careersUrl": "https://www.zhipuai.cn/zh/joinus",
       "focusAreas": ["大模型产品", "平台产品", "项目", "解决方案"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "1,094人",
+      "companySizeMin": 1094,
+      "companySizeEvidenceUrl": "https://www1.hkexnews.hk/listedco/listconews/sehk/2026/0419/2026041900086_c.pdf",
       "adapter": "custom",
       "enabled": false,
-      "checkStatus": "needs-browser"
+      "checkStatus": "reachable",
+      "notes": "公司规模来自智谱 2025 年年报。官网仅展示工作地点和职位类别摘要，没有逐岗位城市、学历、薪资及详情链接，字段不足以安全入库；保留并定期复核。"
     }
   ]
 }

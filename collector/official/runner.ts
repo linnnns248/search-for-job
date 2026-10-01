@@ -15,6 +15,10 @@ import { collectHuaweiJobs } from "./adapters/huawei";
 import { collectDidiJobs } from "./adapters/didi";
 import { collectOppoJobs } from "./adapters/oppo";
 import { collectTongchengJobs } from "./adapters/tongcheng";
+import { collectKingdeeJobs } from "./adapters/kingdee";
+import { collectSangforJobs } from "./adapters/sangfor";
+import { collectCamera360Jobs } from "./adapters/camera360";
+import { collectGisLifeJobs } from "./adapters/gislife";
 import { loadOfficialSitesConfig } from "./config";
 import { matchesOfficialCriteria } from "./criteria";
 import { fetchOfficialHtml } from "./fetch";
@@ -81,9 +85,23 @@ async function collectSource(
   if (source.adapter === "tongcheng") {
     return collectTongchengJobs(source, config, searchConfig);
   }
+  if (source.adapter === "kingdee") {
+    return collectKingdeeJobs(source, config, searchConfig);
+  }
+  if (source.adapter === "sangfor") {
+    return collectSangforJobs(source, config, searchConfig);
+  }
+  if (source.adapter === "camera360") {
+    return collectCamera360Jobs(source, config, searchConfig);
+  }
+  if (source.adapter === "gislife") {
+    return collectGisLifeJobs(source, config);
+  }
   if (source.adapter === "zhiye") {
     const jobs = await collectZhiyeJobs(source, config, searchConfig);
-    if (jobs.length === 0) throw new Error("智易招聘官网没有识别到岗位，原数据保持不变");
+    if (jobs.length === 0 && !source.zhiye?.allowEmptyResults) {
+      throw new Error("智易招聘官网没有识别到岗位，原数据保持不变");
+    }
     return jobs;
   }
   if (source.adapter === "zhiye-classic") {

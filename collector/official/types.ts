@@ -1,6 +1,6 @@
 import type { EducationLevel, EmploymentType } from "../../src/types";
 
-export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "zhiye-classic" | "tencent" | "meituan" | "baidu" | "huawei" | "didi" | "oppo" | "tongcheng" | "custom" | "pending";
+export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "zhiye-classic" | "tencent" | "meituan" | "baidu" | "huawei" | "didi" | "oppo" | "tongcheng" | "kingdee" | "sangfor" | "camera360" | "gislife" | "custom" | "pending";
 export type OfficialSourceCheckStatus = "reachable" | "needs-browser" | "unavailable" | "pending";
 
 export interface SelectorAdapterConfig {
@@ -20,6 +20,7 @@ export interface ZhiyeAdapterConfig {
   category: "1" | "2";
   pageSize: number;
   maximumPagesPerKeyword: number;
+  allowEmptyResults?: boolean;
 }
 
 export interface ZhiyeClassicAdapterConfig {
@@ -84,6 +85,17 @@ export interface TongchengAdapterConfig {
   maximumPagesPerCity: number;
 }
 
+export interface KingdeeAdapterConfig {
+  pageSize: number;
+  maximumPagesPerKeyword: number;
+}
+
+export interface SangforAdapterConfig {
+  channelId: number;
+  pageSize: number;
+  maximumPagesPerKeyword: number;
+}
+
 export interface OfficialSiteSource {
   id: string;
   company: string;
@@ -103,6 +115,8 @@ export interface OfficialSiteSource {
   didi?: DidiAdapterConfig;
   oppo?: OppoAdapterConfig;
   tongcheng?: TongchengAdapterConfig;
+  kingdee?: KingdeeAdapterConfig;
+  sangfor?: SangforAdapterConfig;
   enabled: boolean;
   checkStatus: OfficialSourceCheckStatus;
   notes?: string;
