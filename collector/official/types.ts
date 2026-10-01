@@ -1,6 +1,6 @@
 import type { EducationLevel, EmploymentType } from "../../src/types";
 
-export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "zhiye-classic" | "tencent" | "meituan" | "baidu" | "huawei" | "custom" | "pending";
+export type OfficialAdapterType = "json-ld" | "selector" | "cloudview" | "moka" | "zhiye" | "zhiye-classic" | "tencent" | "meituan" | "baidu" | "huawei" | "didi" | "custom" | "pending";
 export type OfficialSourceCheckStatus = "reachable" | "needs-browser" | "unavailable" | "pending";
 
 export interface SelectorAdapterConfig {
@@ -59,6 +59,13 @@ export interface HuaweiAdapterConfig {
   maximumPagesPerKeyword: number;
 }
 
+export interface DidiAdapterConfig {
+  cityNames: Record<string, string>;
+  employmentType: EmploymentType;
+  pageSize: number;
+  maximumPagesPerCity: number;
+}
+
 export interface OfficialSiteSource {
   id: string;
   company: string;
@@ -75,6 +82,7 @@ export interface OfficialSiteSource {
   meituan?: MeituanAdapterConfig;
   baidu?: BaiduAdapterConfig;
   huawei?: HuaweiAdapterConfig;
+  didi?: DidiAdapterConfig;
   enabled: boolean;
   checkStatus: OfficialSourceCheckStatus;
   notes?: string;

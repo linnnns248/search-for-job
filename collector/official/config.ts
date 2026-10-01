@@ -4,7 +4,7 @@ import { projectRoot } from "../config";
 import type { OfficialSiteSource, OfficialSitesConfig } from "./types";
 
 export const officialSitesPath = path.join(projectRoot, "config", "official-sites.json");
-const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "custom", "pending"]);
+const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "didi", "custom", "pending"]);
 const checkStatuses = new Set(["reachable", "needs-browser", "unavailable", "pending"]);
 
 function assertPublicHttpsUrl(value: string, label: string): void {
@@ -151,6 +151,25 @@ function validateSource(source: OfficialSiteSource, ids: Set<string>): void {
         || source.huawei.maximumPagesPerKeyword < 1
         || source.huawei.maximumPagesPerKeyword > 50) {
         throw new Error(`官网来源 ${source.id} 的华为关键词页数必须在 1 到 50 之间`);
+      }
+    }
+    if (source.adapter === "didi") {
+      if (!source.didi) throw new Error(`已启用官网来源 ${source.id} 缺少滴滴适配器配置`);
+      if (!Object.keys(source.didi.cityNames).length
+        || Object.values(source.didi.cityNames).some((value) => !value.trim())) {
+        throw new Error(`官网来源 ${source.id} 的滴滴城市名称无效`);
+      }
+      if (!["full-time", "part-time"].includes(source.didi.employmentType)) {
+        throw new Error(`官网来源 ${source.id} 的滴滴求职类型无效`);
+      }
+      if (!Number.isInteger(source.didi.pageSize)
+        || source.didi.pageSize < 1 || source.didi.pageSize > 100) {
+        throw new Error(`官网来源 ${source.id} 的滴滴分页大小必须在 1 到 100 之间`);
+      }
+      if (!Number.isInteger(source.didi.maximumPagesPerCity)
+        || source.didi.maximumPagesPerCity < 1
+        || source.didi.maximumPagesPerCity > 50) {
+        throw new Error(`官网来源 ${source.id} 的滴滴城市页数必须在 1 到 50 之间`);
       }
     }
   }

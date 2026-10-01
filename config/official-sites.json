@@ -422,22 +422,34 @@
       "company": "快手",
       "careersUrl": "https://zhaopin.kuaishou.cn/",
       "focusAreas": ["内容产品", "商业化", "增长", "游戏", "AI"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "24,202人",
+      "companySizeMin": 24202,
+      "companySizeEvidenceUrl": "https://ir.kuaishou.com/system/files-encrypted/nasdaq_kms/assets/2026/04/24/18-14-04/Eng%20Annual%20report%202025.pdf",
       "adapter": "custom",
       "enabled": false,
-      "checkStatus": "needs-browser"
+      "checkStatus": "needs-browser",
+      "notes": "公司规模来自快手 2025 年年报。官网岗位列表请求使用客户端签名，本项目不复刻或绕过该机制，后续只评估正常浏览器页面采集。"
     },
     {
       "id": "didi",
       "company": "滴滴",
       "careersUrl": "https://talent.didiglobal.com/social/list/1",
       "focusAreas": ["出行产品", "司机产品", "用户产品", "运营产品"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "custom",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "companySize": "22,335人",
+      "companySizeMin": 22335,
+      "companySizeEvidenceUrl": "https://ir.didiglobal.com/static-files/f1804651-ad87-4bcf-9053-2b80f643a372",
+      "adapter": "didi",
+      "didi": {
+        "cityNames": {
+          "成都": "成都市"
+        },
+        "employmentType": "full-time",
+        "pageSize": 100,
+        "maximumPagesPerCity": 5
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司规模来自滴滴 2025 年 Form 20-F；通过滴滴公开社招接口按城市低频分页，再由统一规则校验岗位标题和本科及以上要求。"
     },
     {
       "id": "huawei",
@@ -495,11 +507,13 @@
       "company": "携程集团",
       "careersUrl": "https://careers.ctrip.com/",
       "focusAreas": ["旅行产品", "供应链", "增长", "运营产品"],
-      "companySize": null,
-      "companySizeMin": null,
+      "companySize": "43,574人",
+      "companySizeMin": 43574,
+      "companySizeEvidenceUrl": "https://www.sec.gov/Archives/edgar/data/1269238/000119312526183379/d27369d20f.htm",
       "adapter": "custom",
       "enabled": false,
-      "checkStatus": "needs-browser"
+      "checkStatus": "needs-browser",
+      "notes": "公司规模来自携程集团 2025 年 Form 20-F。官网岗位列表请求依赖 c-sign 客户端签名，本项目不复刻或绕过该机制，后续只评估正常浏览器页面采集。"
     },
     {
       "id": "tongcheng",

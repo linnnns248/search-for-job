@@ -35,11 +35,11 @@ Boss 数据源参数位于 `config/collector.json`：
 
 `onboardingPolicy.processingStrategy` 保存其余来源的处理顺序。当前为 `company-size-descending`：先使用公司官网、年报等公开依据确认员工规模，再从大到小接入；同一规模档优先处理无需登录、字段完整且能稳定低频读取的官网。
 
-新来源先以 `enabled: false` 加入。只有确认公司规模、完成适配器并通过岗位字段验证后才允许启用。当前适配器类型包括 `json-ld`、`selector`、`cloudview`、`moka`、`zhiye`、`tencent`、`meituan`、`baidu`、`huawei`、`custom` 和 `pending`。
+新来源先以 `enabled: false` 加入。只有确认公司规模、完成适配器并通过岗位字段验证后才允许启用。当前适配器类型包括 `json-ld`、`selector`、`cloudview`、`moka`、`zhiye`、`tencent`、`meituan`、`baidu`、`huawei`、`didi`、`custom` 和 `pending`。
 
 Zhiye 来源可在单站点 `zhiye` 配置中调整招聘类型（社招/校招）、每页数量和每关键词最大页数。采集关键词仍统一读取公开配置的 `titleIncludeKeywords`，避免站点配置复制业务条件。
 
-腾讯、美团、百度和华为来源分别在 `tencent` / `meituan` / `baidu` / `huawei` 配置中维护招聘类型、求职类型和分页上限；支持城市编码的站点还在各自配置中维护城市映射。北森招聘系统根据站点版本使用 `zhiye` 或 `zhiyeClassic` 配置；城市、岗位名称、学历、薪资和公司规模的发布条件仍统一由公开搜索配置控制。
+腾讯、美团、百度、华为和滴滴来源分别在 `tencent` / `meituan` / `baidu` / `huawei` / `didi` 配置中维护招聘类型、求职类型和分页上限；支持城市编码或城市名称的站点还在各自配置中维护城市映射。北森招聘系统根据站点版本使用 `zhiye` 或 `zhiyeClassic` 配置；城市、岗位名称、学历、薪资和公司规模的发布条件仍统一由公开搜索配置控制。
 
 `publicationPolicy` 控制官网缺失字段的发布口径。当前允许薪资未披露，但不允许学历或求职类型未披露。完整清单和启用门槛见 `docs/official-sites.md`。
 
