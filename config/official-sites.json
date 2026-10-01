@@ -472,13 +472,24 @@
     {
       "id": "oppo",
       "company": "OPPO",
-      "careersUrl": "https://careers.oppo.com/",
+      "careersUrl": "https://career.oppo.com/official/oppo/recruitment/post?recruitType=SOCIAL-RECRUITMENT",
       "focusAreas": ["AI", "互联网服务", "用户产品", "商业化"],
-      "companySize": null,
-      "companySizeMin": null,
-      "adapter": "custom",
-      "enabled": false,
-      "checkStatus": "needs-browser"
+      "companySize": "40,000人以上",
+      "companySizeMin": 40000,
+      "companySizeEvidenceUrl": "https://www.oppo.com/en/about/",
+      "adapter": "oppo",
+      "oppo": {
+        "cityCodes": {
+          "成都": "510100"
+        },
+        "recruitType": "SOCIAL-RECRUITMENT",
+        "employmentType": "full-time",
+        "pageSize": 50,
+        "maximumPagesPerCity": 5
+      },
+      "enabled": true,
+      "checkStatus": "reachable",
+      "notes": "公司官网披露全球员工超过 40,000 人；通过 OPPO 公开社招接口按城市低频分页，列表字段包含职责、任职要求和学历要求。"
     },
     {
       "id": "360",

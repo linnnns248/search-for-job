@@ -4,7 +4,7 @@ import { projectRoot } from "../config";
 import type { OfficialSiteSource, OfficialSitesConfig } from "./types";
 
 export const officialSitesPath = path.join(projectRoot, "config", "official-sites.json");
-const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "didi", "custom", "pending"]);
+const adapterTypes = new Set(["json-ld", "selector", "cloudview", "moka", "zhiye", "zhiye-classic", "tencent", "meituan", "baidu", "huawei", "didi", "oppo", "custom", "pending"]);
 const checkStatuses = new Set(["reachable", "needs-browser", "unavailable", "pending"]);
 
 function assertPublicHttpsUrl(value: string, label: string): void {
@@ -170,6 +170,28 @@ function validateSource(source: OfficialSiteSource, ids: Set<string>): void {
         || source.didi.maximumPagesPerCity < 1
         || source.didi.maximumPagesPerCity > 50) {
         throw new Error(`官网来源 ${source.id} 的滴滴城市页数必须在 1 到 50 之间`);
+      }
+    }
+    if (source.adapter === "oppo") {
+      if (!source.oppo) throw new Error(`已启用官网来源 ${source.id} 缺少 OPPO 适配器配置`);
+      if (!Object.keys(source.oppo.cityCodes).length
+        || Object.values(source.oppo.cityCodes).some((value) => !value.trim())) {
+        throw new Error(`官网来源 ${source.id} 的 OPPO 城市编码无效`);
+      }
+      if (source.oppo.recruitType !== "SOCIAL-RECRUITMENT") {
+        throw new Error(`官网来源 ${source.id} 的 OPPO 招聘类型无效`);
+      }
+      if (!["full-time", "part-time"].includes(source.oppo.employmentType)) {
+        throw new Error(`官网来源 ${source.id} 的 OPPO 求职类型无效`);
+      }
+      if (!Number.isInteger(source.oppo.pageSize)
+        || source.oppo.pageSize < 1 || source.oppo.pageSize > 50) {
+        throw new Error(`官网来源 ${source.id} 的 OPPO 分页大小必须在 1 到 50 之间`);
+      }
+      if (!Number.isInteger(source.oppo.maximumPagesPerCity)
+        || source.oppo.maximumPagesPerCity < 1
+        || source.oppo.maximumPagesPerCity > 50) {
+        throw new Error(`官网来源 ${source.id} 的 OPPO 城市页数必须在 1 到 50 之间`);
       }
     }
   }
