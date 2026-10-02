@@ -24,6 +24,9 @@ const companies = officialConfig.sources
     companySizeMin: source.companySizeMin,
     careersUrl: source.careersUrl,
     enabled: source.enabled,
+    reason: source.enabled
+      ? `当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。${source.notes?.trim() ? ` ${source.notes.trim()}` : ""}`
+      : source.notes?.trim() || "该官网尚未完成可发布岗位的自动采集验证。",
   }))
   .sort((left, right) => {
     const sizeDifference = (right.companySizeMin ?? -1) - (left.companySizeMin ?? -1);

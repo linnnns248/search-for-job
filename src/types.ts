@@ -64,6 +64,7 @@ export interface OfficialCompany {
   companySizeMin: number | null;
   careersUrl: string;
   enabled: boolean;
+  reason: string;
 }
 
 export interface OfficialCompanyCatalog {

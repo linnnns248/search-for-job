@@ -281,13 +281,19 @@ function App() {
           <div className="official-company-grid">
             {companiesWithoutOfficialJobs.map((company) => (
               <article className="official-company-card" key={company.id}>
-                <div>
-                  <strong>{company.company}</strong>
-                  <span>{company.companySize}</span>
+                <div className="official-company-card-header">
+                  <div className="official-company-title">
+                    <strong>{company.company}</strong>
+                    <span>{company.companySize}</span>
+                  </div>
+                  <a href={company.careersUrl} target="_blank" rel="noreferrer">
+                    招聘官网 <span aria-hidden="true">↗</span>
+                  </a>
                 </div>
-                <a href={company.careersUrl} target="_blank" rel="noreferrer">
-                  招聘官网 <span aria-hidden="true">↗</span>
-                </a>
+                <p className="official-company-reason">
+                  <span>暂未收录原因</span>
+                  {company.reason}
+                </p>
               </article>
             ))}
           </div>

@@ -5,9 +5,9 @@ import type { JobDataset, OfficialCompanyCatalog } from "./types";
 const catalog: OfficialCompanyCatalog = {
   schemaVersion: 1,
   companies: [
-    { id: "one", company: "已有官网岗位", companySize: "1000人以上", companySizeMin: 1000, careersUrl: "https://example.com/one", enabled: true },
-    { id: "two", company: "暂无官网岗位", companySize: "500人", companySizeMin: 500, careersUrl: "https://example.com/two", enabled: true },
-    { id: "three", company: "已停止采集", companySize: "200人", companySizeMin: 200, careersUrl: "https://example.com/three", enabled: false },
+    { id: "one", company: "已有官网岗位", companySize: "1000人以上", companySizeMin: 1000, careersUrl: "https://example.com/one", enabled: true, reason: "已有岗位" },
+    { id: "two", company: "暂无官网岗位", companySize: "500人", companySizeMin: 500, careersUrl: "https://example.com/two", enabled: true, reason: "当前没有符合条件的岗位" },
+    { id: "three", company: "已停止采集", companySize: "200人", companySizeMin: 200, careersUrl: "https://example.com/three", enabled: false, reason: "官网采集受限" },
   ],
 };
 

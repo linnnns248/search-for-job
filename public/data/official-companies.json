@@ -7,7 +7,8 @@
       "companySize": "776,682人",
       "companySizeMin": 776682,
       "careersUrl": "https://zhaopin.jd.com/web/job/job_info_list/3",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自京东 2025 年 Form 20-F。官网社招公开接口已核验，但职位地点当前只到四川省且未明确披露全职属性，无法严格判断成都和全职，暂不发布。"
     },
     {
       "id": "cmcc",
@@ -15,7 +16,8 @@
       "companySize": "450,000人",
       "companySizeMin": 450000,
       "careersUrl": "https://job.10086.cn/personal/job/?key=%E6%88%90%E9%83%BD",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自中国移动官网 2025 年 6 月数据。招聘列表请求带官网客户端签名，本项目不复刻或绕过该机制；后续优先评估正常浏览器页面采集。"
     },
     {
       "id": "huawei",
@@ -23,7 +25,8 @@
       "companySize": "213,000人",
       "companySizeMin": 213000,
       "careersUrl": "https://career.huawei.com/reccampportal/portal5/social-recruitment.html",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自华为 2025 年公司事实页；通过华为公开社招岗位接口按目标岗位名低频分页，接口字段包含工作地、职责和学历要求。"
     },
     {
       "id": "bytedance",
@@ -31,7 +34,8 @@
       "companySize": "150,000人以上",
       "companySizeMin": 150000,
       "careersUrl": "https://jobs.bytedance.com/experienced/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自字节跳动官网。社招页加载独立安全验证组件，旧版公开岗位接口路径当前已失效；不绕过验证，后续只评估正常浏览器页面采集。"
     },
     {
       "id": "alibaba",
@@ -39,7 +43,8 @@
       "companySize": "131,462人",
       "companySizeMin": 131462,
       "careersUrl": "https://talent.alibaba.com/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自阿里巴巴 2026 财年年报。招聘页加载 Baxia 安全组件，当前不直接调用其内部接口或绕过验证；后续只评估正常浏览器页面采集。"
     },
     {
       "id": "ctrip",
@@ -47,7 +52,8 @@
       "companySize": "43,574人",
       "companySizeMin": 43574,
       "careersUrl": "https://careers.ctrip.com/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自携程集团 2025 年 Form 20-F。官网岗位列表请求依赖 c-sign 客户端签名，本项目不复刻或绕过该机制，后续只评估正常浏览器页面采集。"
     },
     {
       "id": "oppo",
@@ -55,7 +61,8 @@
       "companySize": "40,000人以上",
       "companySizeMin": 40000,
       "careersUrl": "https://career.oppo.com/official/oppo/recruitment/post?recruitType=SOCIAL-RECRUITMENT",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司官网披露全球员工超过 40,000 人；通过 OPPO 公开社招接口按城市低频分页，列表字段包含职责、任职要求和学历要求。"
     },
     {
       "id": "kuaishou",
@@ -63,7 +70,8 @@
       "companySize": "24,202人",
       "companySizeMin": 24202,
       "careersUrl": "https://zhaopin.kuaishou.cn/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自快手 2025 年年报。官网岗位列表请求使用客户端签名，本项目不复刻或绕过该机制，后续只评估正常浏览器页面采集。"
     },
     {
       "id": "didi",
@@ -71,7 +79,8 @@
       "companySize": "22,335人",
       "companySizeMin": 22335,
       "careersUrl": "https://talent.didiglobal.com/social/list/1",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自滴滴 2025 年 Form 20-F；通过滴滴公开社招接口按城市低频分页，再由统一规则校验岗位标题和本科及以上要求。"
     },
     {
       "id": "kingdee",
@@ -79,7 +88,8 @@
       "companySize": "11,294人",
       "companySizeMin": 11294,
       "careersUrl": "https://www.kingdee.com/job/social",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自金蝶国际 2025 年年报。使用金蝶官网无需登录或签名的社招接口按目标岗位关键词分页；当前没有成都产品岗位，后续每日自动复查。"
     },
     {
       "id": "tongcheng",
@@ -87,7 +97,8 @@
       "companySize": "11,249人",
       "companySizeMin": 11249,
       "careersUrl": "https://mhr.ly.com/recruit/portal/#/socialJob",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自同程旅行 2025 年年报。使用无需登录或签名的公开社招接口按成都分页；仅把正式岗位映射为全职，并继续执行统一条件过滤。"
     },
     {
       "id": "baidu",
@@ -95,7 +106,8 @@
       "companySize": "10000人以上",
       "companySizeMin": 10000,
       "careersUrl": "https://talent.baidu.com/jobs/social-list",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自百度 2025 年 Form 20-F；社招岗位通过百度公开招聘接口按成都、产品类别和目标岗位名分页采集。"
     },
     {
       "id": "huolala",
@@ -103,7 +115,8 @@
       "companySize": "10000人以上",
       "companySizeMin": 10000,
       "careersUrl": "https://huolala.zhiye.com/social/jobs",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自货拉拉官方可持续发展报告（全球员工超过 10,000 人）。招聘入口已更新为当前北森社招站，并使用无需登录的公开接口按目标岗位关键词低频分页；当前未发现目标产品岗位，后续每日自动复查。"
     },
     {
       "id": "iflytek",
@@ -111,7 +124,8 @@
       "companySize": "10000人以上",
       "companySizeMin": 10000,
       "careersUrl": "https://iflytek.zhiye.com/",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自当前 Boss 公开岗位页；社招岗位通过智易公开接口按目标岗位名分页采集。"
     },
     {
       "id": "meituan",
@@ -119,7 +133,8 @@
       "companySize": "10000人以上",
       "companySizeMin": 10000,
       "careersUrl": "https://zhaopin.meituan.com/web/social",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 已验证美团官方社招接口；官网未披露薪资时标记为未披露。"
     },
     {
       "id": "tencent",
@@ -127,7 +142,8 @@
       "companySize": "10000人以上",
       "companySizeMin": 10000,
       "careersUrl": "https://careers.tencent.com/search.html?keyword=%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86&query=ci_8",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自腾讯 2025 年 ESG 报告；社会招聘岗位通过腾讯公开招聘接口按城市和目标岗位名分页采集。"
     },
     {
       "id": "fulltruck",
@@ -135,7 +151,8 @@
       "companySize": "8,251人",
       "companySizeMin": 8251,
       "careersUrl": "https://jobs.fulltruckalliance.com/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自满帮集团投资者关系 FAQ（截至 2025-12-31）。当前官方招聘入口持续重定向并超过安全跳转上限，暂时无法读取岗位列表。"
     },
     {
       "id": "sangfor",
@@ -143,7 +160,8 @@
       "companySize": "7,282人",
       "companySizeMin": 7282,
       "careersUrl": "https://hr.sangfor.com/",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模来自深信服 2025 年年报。采集端按官网正常匿名浏览流程获取一小时短期令牌，仅在内存中使用，然后通过公开社招接口低频分页；当前产品岗位均不在成都，后续每日自动复查。"
     },
     {
       "id": "360",
@@ -151,7 +169,8 @@
       "companySize": "3,800人以上",
       "companySizeMin": 3800,
       "careersUrl": "https://hr.360.cn/hr/list",
-      "enabled": false
+      "enabled": false,
+      "reason": "360 官网披露安全人才 3,800 余人，可确认达到规模门槛。官方社招公开接口当前返回 25 个岗位且没有成都岗位；详情未披露全职/兼职属性，暂不启用。"
     },
     {
       "id": "xgimi",
@@ -159,7 +178,8 @@
       "companySize": "1,817人",
       "companySizeMin": 1817,
       "careersUrl": "https://campus.xgimi.com/campus-recruitment/xgimi/5463/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自极米科技 2025 年年报。当前官方链接是 Moka 校招页，社会招聘候选路径均返回 404；找到新的官方社招入口前保持关闭。"
     },
     {
       "id": "zhipu",
@@ -167,7 +187,8 @@
       "companySize": "1,094人",
       "companySizeMin": 1094,
       "careersUrl": "https://www.zhipuai.cn/zh/joinus",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自智谱 2025 年年报。官网仅展示工作地点和职位类别摘要，没有逐岗位城市、学历、薪资及详情链接，字段不足以安全入库；保留并定期复核。"
     },
     {
       "id": "beisen",
@@ -175,7 +196,8 @@
       "companySize": "1000人以上",
       "companySizeMin": 1000,
       "careersUrl": "https://beisen.zhiye.com/",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 招聘入口已更新为当前北森官方站；公司规模来自 2025/2026 财年 ESG 报告，社招岗位使用 Zhiye 公开接口采集。"
     },
     {
       "id": "dewu",
@@ -183,7 +205,8 @@
       "companySize": "1000人以上",
       "companySizeMin": 1000,
       "careersUrl": "https://careers.dewu.com/",
-      "enabled": false
+      "enabled": false,
+      "reason": "得物官方技术文章披露四地研发团队超过 1000 人，可确认达到规模门槛。官方飞书招聘职位请求包含站点 CSRF 与客户端签名，本项目不复刻或绕过该机制，后续仅评估正常浏览器页面采集。"
     },
     {
       "id": "zhunda",
@@ -191,7 +214,8 @@
       "companySize": "1000-4999人",
       "companySizeMin": 1000,
       "careersUrl": "https://www.zhunda.com/recruit/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公开企业资料显示 1000-4999 人。官网招聘落地页可访问，但具体社招页对普通采集客户端返回 Access Denied；需浏览器采集支持后再启用。"
     },
     {
       "id": "xinchao",
@@ -199,7 +223,8 @@
       "companySize": "1000-9999人",
       "companySizeMin": 1000,
       "careersUrl": "https://app-tc.mokahr.com/campus-recruitment/xinchao/16002",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自当前 Boss 公开公司页。官方 Moka 校招入口在普通 HTTP 客户端中持续重定向；在找到稳定社招入口前保留为浏览器复核来源。"
     },
     {
       "id": "baicizhan",
@@ -207,7 +232,8 @@
       "companySize": "500-999人",
       "companySizeMin": 500,
       "careersUrl": "https://join.baicizhan.com/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自当前 Boss 公开公司页。官网会跳转到 Moka 社招入口，但普通 HTTP 客户端持续重定向；需浏览器采集支持后再启用。"
     },
     {
       "id": "xwbank",
@@ -215,7 +241,8 @@
       "companySize": "500-999人",
       "companySizeMin": 500,
       "careersUrl": "https://app.mokahr.com/campus-recruitment/xwbank/4246?locale=zh-CN#/navigation",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自当前 Boss 公开公司页。已知官网链接是 Moka 校招导航且社会招聘直链返回 404；需确认新的官方社招入口后再启用。"
     },
     {
       "id": "naver-china",
@@ -223,7 +250,8 @@
       "companySize": "500-999人",
       "companySizeMin": 500,
       "careersUrl": "https://www.navercorp.com.cn/",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自当前公开企业页。官网当前岗位位于延吉、大连等地，没有成都产品方向岗位；保留并定期复核。"
     },
     {
       "id": "xiaoduo",
@@ -231,7 +259,8 @@
       "companySize": "400余人",
       "companySizeMin": 400,
       "careersUrl": "https://xiaoduoai.zhiye.com/Social",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模依据公开报道中的在岗 400 余人；使用北森 / Zhiye 社招公开接口采集，仍执行统一条件过滤。"
     },
     {
       "id": "vantron",
@@ -239,7 +268,8 @@
       "companySize": "280人",
       "companySizeMin": 280,
       "careersUrl": "https://www.vantrontech.com.cn/us/join",
-      "enabled": false
+      "enabled": false,
+      "reason": "官网当前有售前产品经理且明确本科及以上，但职位页未披露工作城市和全职/兼职属性；补齐可验证字段前保持关闭。"
     },
     {
       "id": "gislife",
@@ -247,7 +277,8 @@
       "companySize": "150-500人",
       "companySizeMin": 150,
       "careersUrl": "https://www.gislife.com.cn/job",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模依据近期公开校招信息。官网当前有成都高级产品经理岗位，页面未披露薪资，按统一规则标记为未披露后收录。"
     },
     {
       "id": "camera360",
@@ -255,7 +286,8 @@
       "companySize": "150-499人",
       "companySizeMin": 150,
       "careersUrl": "https://hr.camera360.com/recruitment.html?channel=social",
-      "enabled": true
+      "enabled": true,
+      "reason": "当前官网没有岗位同时满足成都、目标岗位名称、全职、本科及以上等发布条件。 公司规模采用公开企业资料的 150-499 人区间。官网社招接口无需登录或签名；当前 4 个社招岗位中没有产品经理，后续每日自动复查。"
     },
     {
       "id": "pzeda",
@@ -263,7 +295,8 @@
       "companySize": "100-499人",
       "companySizeMin": 100,
       "careersUrl": "https://www.pzeda.com/about/joinUs",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自当前 Boss 公开公司页。官网招聘页当前服务端显示 No data，没有可采集职位；保留并定期复核。"
     },
     {
       "id": "cloudview",
@@ -271,7 +304,8 @@
       "companySize": "100-499人",
       "companySizeMin": 100,
       "careersUrl": "https://cloudview-inc.com/join/jobs",
-      "enabled": false
+      "enabled": false,
+      "reason": "公司规模来自当前 Boss 公开岗位页。官网详情 URL 当前重复返回同一正文，修复前禁止启用。"
     },
     {
       "id": "qnzs",
@@ -279,7 +313,8 @@
       "companySize": "规模待核验",
       "companySizeMin": null,
       "careersUrl": "https://www.qnzsai.com/join/",
-      "enabled": false
+      "enabled": false,
+      "reason": "官网当前列出成都产品经理，但未公开岗位职责、学历、求职类型和可核验的公司人数；字段补齐前保持关闭。"
     },
     {
       "id": "cosmic-dawn",
@@ -287,7 +322,8 @@
       "companySize": "规模待核验",
       "companySizeMin": null,
       "careersUrl": "https://www.cosmicdawnai.com/jobs.html",
-      "enabled": false
+      "enabled": false,
+      "reason": "官网有 AI 产品经理岗位，但公司于 2026 年新成立且接近完成天使轮，当前没有可靠证据证明员工达到 100 人；规模核验前不纳入主岗位表。"
     }
   ]
 }
